@@ -277,6 +277,8 @@ public class MyCommander extends SandboxCommander {
                 //shortestDistToEnemyFlagScoreLocation,
                 //shortestDistToEnemyFlagSpawnLocation,
         };
+        // Initialise first values by simulating an attack by enemy by first
+        // calculating path to our flag and then their score base.
         prepareAttackedByEnemy();
         buildGraph();
     }
@@ -1003,7 +1005,10 @@ public class MyCommander extends SandboxCommander {
         }
     }
 
+    // Location = position you want the distance to calculate to 
+    // cost = cost of every tile 
     private Distance calcWalkDistance(Vector2 location, int[][] cost) {
+        // inittialise dist object
         Distance dist = new Distance(walkable, cost);
         dist.addInitial(location);
         dist.calcDistances(400);
