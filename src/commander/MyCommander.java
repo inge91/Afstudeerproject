@@ -261,8 +261,8 @@ public class MyCommander extends SandboxCommander {
         riskBasedCostForFlagCarrier = new int[width][height];
         lastSeenMs = new int[width][height];
 
-        // Calculate all initial shortest distances between all elements of the
-        // game
+        // Create a map that calculates ditances from one point to every other
+        // point from the map.
         shortestDistToMyBotSpawnLocation = calcWalkDistance(Utils.getCenter(levelInfo.getBotSpawnAreas().get(myTeam)), unitCost);
         shortestDistToMyFlagLocation = calcWalkDistance(myFlagLocation, unitCost);
         shortestDistToMyFlagScoreLocation = calcWalkDistance(myFlagScoreLocation, unitCost);
@@ -314,12 +314,24 @@ public class MyCommander extends SandboxCommander {
         long now = System.currentTimeMillis();
         currTimeMs = (int)(1000*gameInfo.getMatchInfo().getTimePassed());
         Log.log("tick " + nrTicks + ", time: " + gameInfo.getMatchInfo().getTimePassed());
+
+        // Set flag locations
         myFlagLocation = gameInfo.getMyFlagInfo().getPosition();
         enemyFlagLocation = gameInfo.getEnemyFlagInfo().getPosition();
+
+        // Clear all cmds, no issues should be running
         issuedCmds.clear();
+
+        // Handles combat, does not really seem interesting for now
         handleCombatEvents();
+
+        // Update all tiles that were seen
         updateLastSeen();
+        
+        // update list of defenders in case of kill event
         updateEnemyDefenders();
+
+    
         calcDistances();
         findAmbushPoints();
         setMyBots();
@@ -1015,6 +1027,9 @@ public class MyCommander extends SandboxCommander {
         return dist;
     }
 
+    // For every tile determine the cost depending on risks.
+    // These risks depend on how visible the tiles are and how often an attack
+    // took place there.
     void calcRiskBasedCost() {
         float respawnTime = gameInfo.getMatchInfo().getTimeToNextRespawn();
         if (respawnTime > 0) {
@@ -1118,6 +1133,7 @@ public class MyCommander extends SandboxCommander {
      * Update time stamp of all tiles seen by my bots.
      */
     void updateLastSeen() {
+        // In case all enemies are dead act if all tiles are seen
         if (nrLivingEnemies == 0) {
             for (int i = 0; i < width; ++i) {
                 for (int j = 0; j < height; ++j) {
@@ -1125,6 +1141,7 @@ public class MyCommander extends SandboxCommander {
                 }
             }
         } else {
+            // Else update for all tiles that are seen the timestamp.
             for (MyBotInfo myBot : myBots) {
                 BotInfo bot = gameInfo.getBotInfo(myBot.name);
                 Tile t = Tile.get(bot.getPosition());
@@ -1167,10 +1184,17 @@ public class MyCommander extends SandboxCommander {
             if (event.getType() == MatchCombatEvent.TYPE_BOT_KILLED) {
                 String killedBotName = event.getSubject();
                 BotInfo killedBot = gameInfo.getBotInfo(killedBotName);
+
+                // If bot of my team was killed
                 if (killedBot.getTeam().equals(myTeam)) {
                     boolean isNearFlag = enemyFlagLocation.distance(enemyFlagSpawnLocation) < 2
                         && enemyFlagLocation.distance(killedBot.getPosition()) < levelInfo.getFiringDistance();
+
+                    // In case flag is almost delivered and the distance of bot
+                    // kill position to flag is closer than fire distance
                     if (isNearFlag) {
+                        
+                        // Get information about who killed the bot
                         BotInfo killingBot = gameInfo.getBotInfo(event.getInstigator());
                         if (enemyDefenders.getDefender(killingBot.getName()) == null) {
                             // the enemy bot is shooting near enemy flag
@@ -1178,6 +1202,7 @@ public class MyCommander extends SandboxCommander {
                             // while that it is one
                             Defender defender = new Defender(killingBot);
                             defender.creationTime = currTimeMs;
+                            // Add newly created defender as a flag defender
                             enemyDefenders.add(defender, false);// don't mark is at a flag defender
                         }
                     }

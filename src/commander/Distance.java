@@ -166,26 +166,37 @@ public class Distance {
    }
 
    /**
-    * Adds one more distance layer of squares
-    * 
-    * @return nr added squares
+    * Adds one more distance layer of squares.
+    * For all squares whose distance was already calculated,
+    * calculate the distance from the new square towards
+    * @return number of added squares
     */
    public int calcDistOneMore() {
       // Log.log("calcDistOneMore");
       // exchange added/prevAdded
       int[] helpArr = prevAdded;
+      
+      // added becomes previous added
       prevAdded = added;
       added = helpArr;
-      nrPrevAdded = nrAdded;squaresquare
+
+      // same for numbers added
+      nrPrevAdded = nrAdded;
       nrAdded = 0;
+      // For all elements in prevAdded that the cost has been calculated for
       for (int i = 0; i < nrPrevAdded; ++i) {
+
          // Log.log("i = " + i + ", dist = " + dist[prevAdded[i]]);
          if (dist[prevAdded[i]] < FAR_AWAY) {
             int sq = prevAdded[i];
             int x = toX(sq);
             int y = toY(sq);
             // Log.log("setNeighbours " + x + "/" + y);
+
+            // Find all neighbours of x y
             setNeighbours(x, y);
+
+            // For all neighbours add their cost to the distance
             for (int j = 0; j < nrNeighbours; ++j) {
                int neighbourSq = neighbours[j];
                int neighbourX = toX(neighbourSq);
@@ -193,6 +204,7 @@ public class Distance {
                int newDist = dist[sq] + cost[neighbourX][neighbourY];
                // Log.log(" neighbour: " + neighbourX + "/" + neighbourY +
                // ", newDist = " + newDist);
+               // If new distance is smaller than FAR_AWAY, set this distance
                if (newDist < dist[neighbourSq]) {
                   setDist(sq, neighbourSq, newDist);
                }
@@ -202,6 +214,7 @@ public class Distance {
       return nrAdded;
    }
 
+   // Call to calcDistOneMore maxDist times
    public void calcDistances(int maxDist) {
       for (int i = 0; i < maxDist; ++i) {
          int nrAdded = calcDistOneMore();
@@ -213,18 +226,25 @@ public class Distance {
       }
    }
 
+   // return all tiles in a list that are closer to position than t
    public List<Tile> getCloserTiles(Tile t) {
       List<Tile> result = new ArrayList<Tile>();
       int sq = square(t.x, t.y);
+      // If we know the distance towards the tile t
       if (dist[sq] < FAR_AWAY) {
+
+        // Take all neighbour tiles
+        // and ad
          setNeighbours(t.x, t.y);
          for (int i = 0; i < nrNeighbours; ++i) {
             int neighbourSq = neighbours[i];
             if (dist[neighbourSq] == dist[sq] - 1) {
-               result.add(tile(neighbourSq));
+               result.add(tile(nehttp://www.reddit.com/r/science/comments/1cd7t8/why_does_music_which_unlike_sex_or_food_has_no/ighbourSq));
             }
          }
       }
+      // Is a list of neighbouring tiles that are closer to the begin position
+      // than t
       return result;
    }
 
