@@ -1,0 +1,97 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Afstudeerproject Opdracht 3}
+\author{Inge Becht \\ 6093906}
+\date{June 2011}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item{ 
+    \begin{enumerate}
+        \item {Article: Learning and Reasoning with Action-Related Places for Robust Mobile Manipulation
+        \begin{enumerate}
+            \item Hypothesis: In this article the problem of how a robot should be positioned in case of mobile manipulation tasks is considered using a concept named Action-Related Places. The idea is that the possible position of the robot are multiple points so that the robot can reason given multiple solutions.
+            \item Conclusion: ARPlace is a good solution to the problem as it is a compact model that uses experienced based learning, which results in the model taking into account the hardware of the robot, the environment and therefor can be applied in multiple mobile manipulation platforms. It also outputs multiple positions with their own success probability so that the robot can change its position smoothly in case it has to. The ARPlace model can still be broadened for more complex scenarios like the grasping of bigger objects.
+            \item Type of question: To show their ARPlace concept is a good solution to the problem, empirical research is conducted by looking at how well it performs on different objects and robot poses. It is also formal as it explains why ARPlace works as a good solution 
+            \item Type of research: Implement and testing. Their own model is implemented and tested in an empirical way.
+        \end{enumerate}
+        }
+        \item {Article: Robust Local Search for Solving RCPSP/max with
+Durational Uncertainty
+        \begin{enumerate}
+            \item Hypothesis: The development of a scalable method that can solve scheduling problem. The biggest change to previous research on this subject is the possibility of dealing with duration uncertainty, more specific when there is a temporal dependency between activities. To do this an online decision rule mechanism is used for deciding which task to do. 
+            \item Conclusion: By creating a new fitness evaluation function for scheduling the performance of the scheduler improves, creating more compact and robust schedules compared to existing methods. This new model does not work in case there is a covariance in the duration uncertainties between items to be scheduled. This however, can occur in real life scheduling problems and still needs to be worked on.
+            \item Type of question: Empirical; Their algorithm is tested next to a bunch of other algorithms, to show how well their own results are when comparing them to other research in the same domain.
+            \item Type of research: creating an algorithm and testing this on the specific domain of scheduling.
+        \end{enumerate}
+        }
+        \item {Article: Location-Based Reasoning about Complex Multi-Agent Behavior
+        \begin{enumerate}
+            \item Hypothesis: Can information about human interaction and intention be inferred by looking at GPS data in a fully relational multi-agent setting? This is attempted by using Markov logic in a game of capture the flag.
+            \item Conclusion: Using Markov logic in the Capture the Flag game there cane detected both successful and failed interactions, even in case of noisy data. By tracking both relation between players and the relations among activities in the game it is significantly more accurate on real-world data than only in case of tracking player relations.
+            \item Type of question: Empirical, the question was if human interaction could be inferred using Markov logic, and this is tested by gathering data and testing it to a baseline. Also Method, as Markov Logic is something that is not invented by the researchers, but is a tool applied to a certain specific domain.
+            
+            \item Type of research: Implement and testing. An algorithm is described for the particular task at hand and after that was tested against other algorithms to see what performs best.
+        \end{enumerate}
+        }
+        \item {Article: The CQC Algorithm: Cycling in Graphs to Semantically
+Enrich and Enhance a Bilingual Dictionary
+        \begin{enumerate}
+            \item Hypothesis:
+            There is an algorithm that can autonomously disambiguate translations in bilingual machine-readable dictionaries.
+            \item Conclusion: The Cycles and Quasi-Cycles algorithm presented in the paper is able to successfully disambiguate translations, is the first system that produces sense-tagged synonyms for bilingual dictionaries and is able to enhance dictionaries by ranking based on a disambiguation score.
+            \item Type of question: Empirical, because experiments are done regarding its performance on synonym extraction and dictionary enhancement by use of train and test data. It is also formal, as it explains in detail how CQC work and how that benefits bilingual dictionaries.
+            \item Type of research: The construction of an algorithm for a specific domain
+        \end{enumerate}
+        }
+        \item {Article: Counting-Based Search:
+Branching Heuristics for Constraint Satisfaction Problems
+        \begin{enumerate}
+            \item Hypothesis: Can counting-based search heuristics be used in constraint programming problems? In the paper different kind of counting-based heuristics are experimented with to find out.
+            
+            \item Conclusion: maxSD heuristics gave the best result of the tested heuristics when used on 8 different problems that are related to constraint satisfaction problems. The researchers also believe that counting based search heuristics indeed are a good solution to the specific problem at hand,
+            \item Type of question: It is formal, as the heuristics are explained in great detail, but also empirical as the result of each heuristic is laid side by side in a graph after multiple test runs on the data.
+            \item Type of research: Implementing of algorithms on a specific domain to test their performance.
+        \end{enumerate}
+        }    
+    \end{enumerate}
+    }
+    \item{
+    \begin{enumerate}
+    \item{Does the introduction state what the research is about?}
+    \item{Does the conclusion follow from the rest of the article?}
+    \item{Are the steps taken for the research clear (so that it is easily repeatable)?}
+    \item{Are references (correctly) used?}
+    \item{Is the structure logical?}
+    \item{Is it clear how the particular paper relates to other research?}
+    \end{enumerate}
+    }
+    \clearpage
+    \item{
+    
+        \begin{enumerate}
+    \item{Does the introduction state what the research is about? In the end a clear summation is given about the specific contributions of the paper, but it takes the author a long time to state this, giving a lot of information that does not yet seem relevant for the reader. For instance, when the author starts to talk about what clustering is, it is not at all clear why this is being told. This could be approved upon by first talking more about the paper specific contributions and later on explaining in a theoretical section what clustering and other used tools are. The introduction does nicely at the end give an overview of the upcoming sections.}
+    \item{Does the conclusion follow from the rest of the article?
+    The conclusion really is a summary of things talked about earlier. It talks about how there has been experimented with the mapping procedure, but it does not say at all what the results of these experiments were, so that it not can be perceived as a good conclusion. The conclusion should state what has been done in the paper and what the conclusion was of conducted experiments. Now you still need to read the rest of the paper to get an idea of the success of the research. The fact that the experiment section does not give the results in normal text but only in error measures does not give an intuitive conclusion about the experiments itself, so that a clear conclusion really is crucial.}
+    \item{Are the steps taken for the research clear (so that it is easily repeatable)?}
+    The experiment would seem easily repeatable, the author gives information about where the data came from on which was tested, the materials that were used in testing and the algorithms are given in pseudo-code so that repeatability could indeed be an option. Only not stating what method of clustering was used in WEKA with which exact variables, is not really a good practice.
+    \item{Are references (correctly) used?}
+    References do seem correctly used, as all major claims made are followed by a reference. It is quite hard to tell if the referenced papers are relevant to the part where it is being cited as I don't have any expertise in this field of research.
+    \item{Is the structure logical?}
+    The structure is quite unremarkable, which is a good thing. First an introduction is given about what is to be expected from this article, after this a related works section, which is the most logical moment to talk about this kind of thing. The following two sections can be seen as the theory that should be explained before giving the experiments and results. As already stated it sometimes is more of a problem in what part what information is given by the author, but the overall structure seems fine
+    \item{Is it clear how the particular paper relates to other research?}
+    In the Related Works section a lot of information of previous research is given with good references, but only sometimes does the author state the difference between their work and his own. The consequence of this is that it is not entirely clear how his work relates to what has already be done, or even why those related works are relevant at all to mention. Only in the next section is briefly stated a broad difference between all their work and his own, which does not seem like a good practice.
+    \end{enumerate}
+    }
+    
+\end{enumerate}
+
+\end{document}
