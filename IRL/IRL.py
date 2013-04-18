@@ -27,12 +27,14 @@ feature_count = 3
 # initialise weights all with the same value
 weights = np.array([len(feature_count) * 1])
 
+# A trajectory from begin state to end state
+trajectory = [(0,2), (0,1), (0,0), (1,0), (2,0)]
+trajectories = [trajectory]
 
-def main():1d
-    # A trajectory from begin state to end state
-    trajectory = [(0,2), (0,1), (0,0), (1,0), (2,0)]
-    trajectories = [trajectory]
+states = [(0,0), (0,1), (0,2), (1, 0), (1, 2), (2,0), (2,1), (2,2)]
 
+
+def main():
     # construct features for all of the trajectories
     features = calculate_features(trajectories)
 
@@ -92,11 +94,38 @@ def update_weights():
 # For all features in every square visited in every trajectory
 # add their feature values and return as visitation count
 def calculate_visitation_count():
-    visitation_counts
+    visitation_counts = np.array( feature_count * [0] )
     for trajectory in trajectories:
         for state in trajectory:
             visitation_counts += calculate_features(state)
     return visitation_counts
+
+# The calculation of Sum_si D_si f_si
+def calculate_expected_state_freq_vis():
+    for state in states:
+        forward_pass(state)
+        calculate_features(state)
+
+# Make forward pass N times FIXME: Iterate form t = 1 to N
+def forward_pass(state_n, N):
+    # Probability of state being initial TODO: How to calculate?
+    D = 
+    for i in range(0, N):
+        for state in states:
+            for action in actions:
+                D += summing_frequencies(state) * 
+                local_action_prob_comp(state, action) *
+                # is 0 or 1
+                transition_probability(state_n, state, action)
+
+def summing_frequencies(state, time)
+
+    
+
+
+        
+
+
 
 
 
