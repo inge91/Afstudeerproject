@@ -5,16 +5,10 @@
 #                                                              #
 ################################################################
 import math
+import numpy as np
 # width and height of the map
 width = 3
 height = 3
-
-# points of interest for feature calculation 
-beginpoint = (0,2)
-endpoint = (2,0)
-centrepoint = (1,1)
-
-feature_count = 3
 
 # Pretty ASCII art to demonstrate the map
 # -------
@@ -23,46 +17,44 @@ feature_count = 3
 # |    b|
 # -------
 
-def main():
-    # A trajectory from begin point to end point
+# states of interest for feature calculation 
+beginstate = (0,21d)
+endstate = (2,0)
+centrestate = (1,1)
+
+feature_count = 3
+
+# initialise weights all with the same value
+weights = np.array([len(feature_count) * 1])
+
+
+def main():1d
+    # A trajectory from begin state to end state
     trajectory = [(0,2), (0,1), (0,0), (1,0), (2,0)]
     trajectories = [trajectory]
 
     # construct features for all of the trajectories
     features = calculate_features(trajectories)
 
-    # initialise weights all with the same value
-    weights = len(feature_count) * 1
-
-
-
-
-# Calculates all features for every trajectory at every point
-def calculate_features(trajectories):
-    trajectories_features = []
-    for trajectory in trajectories:
-        trajectory_features = []
-        for point in trajectory:
-            feature_values = []
-            feature_values += [calculate_exit_distance(point)]
-            feature_values += [calculate_entrance_distance(point)]
-            feature_values += [calculate_centre_distance(point)]
-            trajectory_features += feature_values
-        trajectories_features += trajectory_features
-    return trajectories_features
+# Calculates all features for a position
+def calculate_features(state):
+    feature_values = np.array([])
+    np.append(feature_values, calculate_exit_distance(state)])
+    np.append(feature_values, calculate_entrance_distance(state))
+    np.append(feature_values, calculate_centre_distance(state))
 
 
 # Calculate how many steps it takes to the end position
-def calculate_exit_distance(point):
-    return abs(point - endpoint)[0] + abs(point - endpoint)[1]
+def calculate_exit_distance(state):
+    return abs(state - endstate)[0] + abs(state - endstate)[1]
 
 # Calculate how many steps it takes to the begin position
-def calculate_entrance_distance(point):
-    return abs(point - beginpoint)[0] + abs(point - beginpoint)[1]
+def calculate_entrance_distance(state):
+    return abs(state - beginstate)[0] + abs(state - beginstate)[1]
 
 # Calculate how many steps it takes to 
-def calculate_centre_distance(point):
-    return abs(point - centrepoint)[0] + abs(point - centrepoint)[1]
+def calculate_centre_distance(state):
+    return abs(state - centrestate)[0] + abs(state - centrestate)[1]
 
 
 # Apply backward pass N times
@@ -72,10 +64,10 @@ def backward_pass(N):
 
 # Recursion of state
 def Zstate(state):
-    Sterminal = endpoint
+    Sterminal = endstate
     # all actions possible in states
     for action in actions:
-        Zaction(action) + 1 if (state == Sterminal) else Zaction(action)
+        (Zaction(action) + 1) if (state == Sterminal) else Zaction(action)
 
 # Recursion of actions
 def Zaction(action, state):
@@ -83,10 +75,29 @@ def Zaction(action, state):
         probability_transition(action, prev_state, state) *  math.pow(math.e,
                 reward_functions(state)) * Zstate(prev_state)
 
-# gives the reward given a state
+# Returns the reward given a state
 def reward_function(state):
     features = extract_features(state)
-    w * fs
+    reward = np.dot(weights, features)
+    return reward
+
+# Updates reward for non-deterministic MDPs
+def update_weights():
+    # The gradient descent
+    visitation_count = calculate_visitation_count()
+    esfv = calculate_expected_state_freq_vis()
+    global weights = visitation_count - esfv
+
+# The calculation of E[fo]
+# For all features in every square visited in every trajectory
+# add their feature values and return as visitation count
+def calculate_visitation_count():
+    visitation_counts
+    for trajectory in trajectories:
+        for state in trajectory:
+            visitation_counts += calculate_features(state)
+    return visitation_counts
+
 
 
 
