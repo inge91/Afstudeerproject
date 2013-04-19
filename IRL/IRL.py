@@ -18,7 +18,7 @@ height = 3
 # -------
 
 # states of interest for feature calculation 
-beginstate = (0,21d)
+beginstate = (0,2)
 endstate = (2,0)
 centrestate = (1,1)
 
@@ -31,7 +31,9 @@ weights = np.array([len(feature_count) * 1])
 trajectory = [(0,2), (0,1), (0,0), (1,0), (2,0)]
 trajectories = [trajectory]
 
+# Lists of all actions and all states
 states = [(0,0), (0,1), (0,2), (1, 0), (1, 2), (2,0), (2,1), (2,2)]
+actions = [(0,0), (0,1), (1,0), (-1, 0), (0, -1)]
 
 
 def main():
@@ -62,17 +64,18 @@ def calculate_centre_distance(state):
 # Apply backward pass N times
 def backward_pass(N):
     for i in range(0, N):
-        Zstate(state)
+        Z_action(state)
 
 # Recursion of state
-def Zstate(state):
+def Z_state(state):
+
     Sterminal = endstate
     # all actions possible in states
     for action in actions:
         (Zaction(action) + 1) if (state == Sterminal) else Zaction(action)
 
 # Recursion of actions
-def Zaction(action, state):
+def Z_action(action, state):
     for prev_state in states:
         probability_transition(action, prev_state, state) *  math.pow(math.e,
                 reward_functions(state)) * Zstate(prev_state)
@@ -83,7 +86,13 @@ def reward_function(state):
     reward = np.dot(weights, features)
     return reward
 
+# Step 3 of the Expected Edge Frequency Calculation
+def local_action_prob_comp(state, action):
+    return Zaction(action, state)
+
+
 # Updates reward for non-deterministic MDPs
+# TODO: Do i still need the derivative?
 def update_weights():
     # The gradient descent
     visitation_count = calculate_visitation_count()
@@ -102,32 +111,36 @@ def calculate_visitation_count():
 
 # The calculation of Sum_si D_si f_si
 def calculate_expected_state_freq_vis():
+    state_freq = 0
     for state in states:
-        forward_pass(state)
-        calculate_features(state)
+        state_freq += summing_frequencies(state) * calculate_features(state)
+    return state_freq
 
 # Make forward pass N times FIXME: Iterate form t = 1 to N
-def forward_pass(state_n, N):
+def forward_pass(state_n, time):
+    N = 200
     # Probability of state being initial TODO: How to calculate?
     D = 
-    for i in range(0, N):
+    for i in range(1, N):
         for state in states:
             for action in actions:
-                D += summing_frequencies(state) * 
+                D += D * 
                 local_action_prob_comp(state, action) *
                 # is 0 or 1
-                transition_probability(state_n, state, action)
+                transition_probability(state_n, action, state)
 
-def summing_frequencies(state, time)
+# For a state do the forward_pass with each possible time
+def summing_frequencies(state):
+    Ds = 0
+    for time in range (0, finaltime):
+        Ds += forward_pass(state, time)
+    return Ds
 
-    
-
-
-        
-
-
-
-
+# The probability that given a state and an action
+# the new state will be reached
+def transition_probability(state_n, state, action):
+    # possible FIXME: Should it only be state transitions that really occur?
+    1 if (state + action) == state_n else 0 
 
 
 if __name__ == '__main__':
