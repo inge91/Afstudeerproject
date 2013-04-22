@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{Bennewitz05learningmotion}
+Maren Bennewitz, Wolfram Burgard, Grzegorz Cielniak, and Sebastian Thrun.
+\newblock Learning motion patterns of people for compliant robot motion.
+\newblock {\em Internationl Journal of Robotics Research}, 24:31--48, 2005.
+
+\bibitem{Hladky_anevaluation}
+Stephen Hladky and Vadim Bulitko.
+\newblock An evaluation of models for predicting opponent positions in
+  first-person shooter video games, 2008.
+
+\bibitem{Laird:2001:KYG:375735.376343}
+John~E. Laird.
+\newblock It knows what you're going to do: adding anticipation to a quakebot.
+\newblock In {\em Proceedings of the fifth international conference on
+  Autonomous agents}, AGENTS '01, pages 385--392, New York, NY, USA, 2001. ACM.
+
+\bibitem{6374144}
+B.~Tastan, Yuan Chang, and G.~Sukthankar.
+\newblock Learning to intercept opponents in first person shooter games.
+\newblock In {\em Computational Intelligence and Games (CIG), 2012 IEEE
+  Conference on}, pages 100--107, 2012.
+
+\bibitem{weber2011aiide}
+Ben~G. Weber, Michael Mateas, and Arnav Jhala.
+\newblock A particle model for state estimation in real-time strategy games.
+\newblock In {\em Proceedings of AIIDE}, page 103{\textendash}108, Stanford,
+  Palo Alto, California, 2011. AAAI Press, AAAI Press.
+
+\end{thebibliography}
