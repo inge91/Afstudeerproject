@@ -1,0 +1,147 @@
+\documentclass{beamer}
+\usetheme{Madrid} % My favorite!
+\usepackage{color}
+%\usetheme{Boadilla} % Pretty neat, soft color.
+%\usetheme{default}
+%\usetheme{Warsaw}
+%\usetheme{Bergen} % This template has nagivation on the left
+%\usetheme{Frankfurt} % Similar to the default 
+%with an extra region at the top.
+%\usecolortheme{seahorse} % Simple and clean template
+%\usetheme{Darmstadt} % not so good
+% Uncomment the following line if you want %
+% page numbers and using Warsaw theme%
+% \setbeamertemplate{footline}[page number]
+%\setbeamercovered{transparent}
+\setbeamercovered{invisible}
+% To remove the navigation symbols from 
+% the bottom of slides%
+\setbeamertemplate{navigation symbols}{} 
+%
+\usepackage{graphicx}
+%\usepackage{bm}         % For typesetting bold math (not \mathbold)
+%\logo{\includegraphics[height=0.6cm]{yourlogo.eps}}
+%
+\title[Opponent prediction models]{Making opponent prediction models for Capture
+The flag}
+\author{Inge Becht}
+\institute[University of Amsterdam]
+{
+University of Amsterdam \\
+\medskip
+{\emph{inge.becht91@gmail.com}}
+}
+\date{\today}
+% \today will show current date. 
+% Alternatively, you can specify a date.
+%
+\begin{document}
+%
+\begin{frame}
+\titlepage
+\end{frame}
+%
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+\item{}
+\item{Requirements Game AI}
+    \begin{itemize}
+        \item human-like
+        \item fun
+        \item adaptive
+    \end{itemize}
+\end{itemize}
+\begin{block}{Problem statement}
+Can I \emph{succesfully} build a motion model for a game of Capture The Flag that predicts enemy
+position and can this \emph{improve} the performance of an AI?
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Approach Motion Modelling}
+\begin{itemize}
+    \item Maximum Enthropy Inverse Reinforcement Learning
+    \begin{itemize}
+        \item Feature based Reasoning
+        \item Needs previous trajectories
+    \end{itemize}
+    \item Has been done, but:
+        \begin{itemize}
+            \item Different gaming domain (Non-team Deathmatch)
+            \item Uses one model per human player
+            \item Uses specific interception reasoner
+        \end {itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Approach Reasoner}
+\begin{itemize}
+    \item Different aspects:
+    \begin{itemize}
+        \item Ambushing enemy
+        \item Avoiding enemy
+    \end{itemize}
+    \item broadness of implementation depends on amount of time
+    \item Probably finite state machine
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Evaluation}
+\begin{block}{Problem statement (again)}
+Can I \emph{succesfully} build a motion model for a game of Capture The Flag that predicts enemy
+position and can this \emph{improve} the performance of an AI?
+\end{block}
+\begin{itemize}
+    \item Evaluation contains two aspects
+    \item \emph{Succesfully} build a motion model:
+        \begin{itemize}
+            \item absolute error
+            \item needs test data
+        \end{itemize}
+    \item \emph{Improving} performance of an AI:
+        \begin{itemize}
+            \item Create Competition
+            \item Depends on succes of motion model.
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Plan}
+\begin{table}
+\centering
+    \begin{tabular}{| l | l |}
+      \hline                        
+      Week No. & Planning \\
+      \hline
+      \hline
+      18 &  Implement IRL motion model \\
+      \hline
+      19 &  Implement IRL motion model \\
+      \hline
+      20 &  Implement model in AI code and work on reasoning\\
+      \hline
+      21 &  Work on reasoning aspect \\
+      \hline
+      22 &  Preperation midpresentation and assignment 8\\
+      \hline
+      23 &  Starting with evaluation\\
+      \hline
+      24 &  Assignment 9 and evaluation completion \\
+      \hline
+      25 &  Finishing thesis \\
+      \hline
+      26 &  Preparing final presentation, finishing logbook and paper \\
+      \hline
+    \end{tabular}
+\end{table}
+\end{frame}
+
+
+
+% End of slides
+\end{document} 
