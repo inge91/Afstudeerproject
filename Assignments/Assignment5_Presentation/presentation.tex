@@ -7,7 +7,7 @@
 %\usetheme{Bergen} % This template has nagivation on the left
 %\usetheme{Frankfurt} % Similar to the default 
 %with an extra region at the top.
-%\usecolortheme{seahorse} % Simple and clean template
+\usecolortheme{orchid} % Simple and clean template
 %\usetheme{Darmstadt} % not so good
 % Uncomment the following line if you want %
 % page numbers and using Warsaw theme%
@@ -22,14 +22,15 @@
 %\usepackage{bm}         % For typesetting bold math (not \mathbold)
 %\logo{\includegraphics[height=0.6cm]{yourlogo.eps}}
 %
-\title[Opponent prediction models]{Making opponent prediction models for Capture
-The flag}
+\title[Action Model Reasoner]{Making an Action Model Reasoner
+    For a Game of Capture
+the Flag}
 \author{Inge Becht}
 \institute[University of Amsterdam]
 {
 University of Amsterdam \\
 \medskip
-{\emph{inge.becht91@gmail.com}}
+{}
 }
 \date{\today}
 % \today will show current date. 
@@ -38,53 +39,88 @@ University of Amsterdam \\
 \begin{document}
 %
 \begin{frame}
-\titlepage
+    \titlepage
 \end{frame}
-%
+
+%FIXME Too many slides for a 8 minute presentation?
 \begin{frame}
-\frametitle{Introduction}
-\begin{itemize}
-\item{}
-\item{Requirements Game AI}
+    \frametitle{Introduction}
     \begin{itemize}
-        \item human-like
-        \item fun
-        \item adaptive
+        \item{Game AI research:}
+            \begin{itemize}
+                \item human-like
+                \item {\color{red}fairness}
+                    \begin{itemize}
+                        \item incomplete knowledge
+                    \end{itemize}
+                \item adaptive
+            \end{itemize}
     \end{itemize}
+    \begin{block}{Problem statement}
+        %FIXME is this too global? Should I add ME IRL to the statement
+        Is it possible to \emph{succesfully} build a motion model for a game of Capture the Flag that predicts enemy
+        position and can this \emph{improve} the performance of an AI?
+    \end{block}
+\begin{itemize}
+    \item Two aspects to this research
 \end{itemize}
-\begin{block}{Problem statement}
-Can I \emph{succesfully} build a motion model for a game of Capture The Flag that predicts enemy
-position and can this \emph{improve} the performance of an AI?
-\end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Tools}
+    \begin{itemize}
+        \item{Capture the Flag (CTF)}
+            \begin{itemize}
+                \item Team multi-agent environment
+                \item Single target game
+            \end{itemize}
+        \item{AISandbox}
+            \begin{itemize}
+                \item CTF AI development environment
+                \item Used for competitions
+            \end{itemize}
+        \item{Use pre-existing AI}
+            \begin{itemize}
+                \item Terminator: 3$^{rd}$ place in competition
+                \item naive opponent response reasoner
+                \item add own motion model maker
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Approach Motion Modelling}
 \begin{itemize}
-    \item Maximum Enthropy Inverse Reinforcement Learning
+    \item Maximum Entropy Inverse Reinforcement Learning
     \begin{itemize}
         \item Feature based Reasoning
-        \item Needs previous trajectories
+        \item Learns offline given known trajectories
+        \item Distribution of occupation likelyhood
     \end{itemize}
+    %FIXME: Should i use references?
     \item Has been done, but:
         \begin{itemize}
             \item Different gaming domain (Non-team Deathmatch)
             \item Uses one model per human player
-            \item Uses specific interception reasoner
+            \item Only tested with interception reasoner
+            \item Doesn't check map invariancy
         \end {itemize}
 \end{itemize}
 \end{frame}
 
+% FIXME Scientific enough?
 \begin{frame}
 \frametitle{Approach Reasoner}
 \begin{itemize}
+    \item What to do with new information?
     \item Different aspects:
     \begin{itemize}
         \item Ambushing enemy
         \item Avoiding enemy
+        \item Anticipating actions
     \end{itemize}
-    \item broadness of implementation depends on amount of time
-    \item Probably finite state machine
+    \item broadness of implementation depends on time left
+    \item Finite state automaton
 \end{itemize}
 \end{frame}
 
@@ -92,7 +128,7 @@ position and can this \emph{improve} the performance of an AI?
 \begin{frame}
 \frametitle{Evaluation}
 \begin{block}{Problem statement (again)}
-Can I \emph{succesfully} build a motion model for a game of Capture The Flag that predicts enemy
+Is it possible to \emph{succesfully} build a motion model for a game of Capture the Flag that predicts enemy
 position and can this \emph{improve} the performance of an AI?
 \end{block}
 \begin{itemize}
@@ -100,7 +136,7 @@ position and can this \emph{improve} the performance of an AI?
     \item \emph{Succesfully} build a motion model:
         \begin{itemize}
             \item absolute error
-            \item needs test data
+            \item possibly compare with other models
         \end{itemize}
     \item \emph{Improving} performance of an AI:
         \begin{itemize}
@@ -133,7 +169,7 @@ position and can this \emph{improve} the performance of an AI?
       \hline
       24 &  Assignment 9 and evaluation completion \\
       \hline
-      25 &  Finishing thesis \\
+      25 &  Finishing paper \\
       \hline
       26 &  Preparing final presentation, finishing logbook and paper \\
       \hline
