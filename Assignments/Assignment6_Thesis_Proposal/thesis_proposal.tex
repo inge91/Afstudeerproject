@@ -5,7 +5,8 @@
 \usepackage{graphicx}
 
 \author{Inge Becht}
-\title{Assignment 6 - Project Proposal}
+\title{Assignment 6 - Project Proposal\\ 
+ Making an Action Model Reasoner for a Game of Capture the Flag}
 
 \begin{document}
 \maketitle
@@ -16,22 +17,18 @@ decisions based on a game situation, without the human players having the
 feeling that the AI is cheating. Creating such a fair artificial intelligence can be achieved by
 giving it only partial knowledge about the game world, for example by keeping parts of
 the game map unknown or by not knowing the position of the opponents at all
-times. In my thesis I want to focus on the latter by seeing if it is possible to
-\emph{succesfully} build a motion model for a game of Capture the Flag that
-predicts enemy position and by checking if this \emph{improve} the performance of an
-existing game AI. It is clear that this problem has multiple aspects to it. Not
+times. In my thesis I want to focus on the latter making the research question:
+\begin{quotation}
+Is it possible to
+successfully build a motion model for a game of Capture the Flag that
+predicts enemy position and by checking if this improves the performance
+of an existing game AI.
+\end{quotation}
+It is clear that this problem has multiple aspects to it. Not
 only is there a need for an implementation of the motion model itself, there is
 also a need for building a reasoner that takes actions on the prediction of the
 motion model. In the implementation section both sides of the research will be
 more thoroughly explained. 
-
-%\emph{Can the Maximum Entropy Inverse Reinforcement Learning Algorithm be
-%adapted for opponent motion modelling in a game of Capture the Flag?}
-%\emph{Can Maximum Entropy Inverse Reinforcement Learning be applied for
-%opponent modeling to create a better AI in ca game of Capture the Flag?}
-%\emph{Can I improve}
-
-\section{Background Information}
 
 \subsection{Capture the Flag}
 Capture The Flag (CTF) is a well known combat objective found in video games
@@ -42,6 +39,11 @@ flag will stay at its posiiton until its team retrieves it or another enemy
 opponent catches it and becomes the new flag bearer. The game is won after one
 of the teams has catched the flag for a pre-determined number of times.
 
+%\emph{Can the Maximum Entropy Inverse Reinforcement Learning Algorithm be
+%adapted for opponent motion modelling in a game of Capture the Flag?}
+%\emph{Can Maximum Entropy Inverse Reinforcement Learning be applied for
+%opponent modeling to create a better AI in ca game of Capture the Flag?}
+%\emph{Can I improve}
 
 \section{Related Works}
 There have been different studies on the topic of opponent motion modelling.
@@ -50,13 +52,13 @@ position prediction are tested in the team oriented game Counter strike.
 The tested motion models were
 Hidden Semi Markov Models and Particle filters.
 The research mostly thus concentrated on researching how human-like the
-models are, but does not research how to succesfully integrate such a prediction system in a multi-agent AI system.
-In \citep{weber2011aiide} a particle filter is used, but
-the research is more directed towards how much does
-integrating this in an AI system can enhance performance. Essentially it answers
+models are, but does not research how to succesfully integrate such a
+prediction system in a multi-agent AI system.
+In \citep{weber2011aiide} the research is more directed towards how much does
+integrating a particle filter in an AI system enhance performance. Essentially it answers
 the same question as brought up in this thesis proposal, but on a different game
 domain (Real Time Strategy instead of First Person Shooter) as well was using a
-different technique of motion modelling. The game Star Craft was used and the EISBot was enhanced with their developed reasoning capabilities.
+different tehnique. 
 Instead of trying to predict the opponent position, the authors of
 \citep{Laird:2001:KYG:375735.376343} focused on creating a reasoner that
 anticipates behavior of an opponent in Quake. They did this by enhancing the
@@ -67,36 +69,109 @@ In the paper \citep{6374144} both the combination of making predictive models
 for opponent positions is discusses as well as a way of intercepting the
 opponents in game. The predictive models are made using a particle filter both
 with Maximum Enthorpy Inverse Reinforcement Learning and Brownian motion to test
-which works best. Although this research is similar to my own, it
-is different in multiple aspects. A game with different goals is used to test
-their motion model and interception techniques. There is only one agent against
-multiple different opponents with the only taks of intercepting the opponent. I
-will be using the technique of ME IRL, and will talk more about the way this is
-intergrated in the next section.
+which works best. Although this research is similar to my own. This will be
+further explained in the Method section.
 
 \section{Method and Approach}
-
-It is clear that this problem has multiple aspects to it. Not
+When we look at the research question, it is clear that this problem has multiple aspects. Not
 only is there a need for an implementation of the motion model itself, there is
 also a need for building a reasoner that takes actions on the prediction of the
-motion model.
--Want to use Inverse reinfocement learning for this purpose
-The game environment will be used is called the AISandbox, a tool developed my
-makes of the AIGameDev blog and Guerilla Games.
+motion model. This section will talk about both aspects seperately, but first an
+overview of tools that will be used is given.
 
-It would not be efficient to work from scratch, so code was used from the
-AISandbox Challende to implement this in. The code is written in Java. The way
-the code works is by 
--Use of code Terminator
+\subsection{Tools}
+The research is conducted within the AISandbox, a framework created by the
+\url{AIGameDev.com} to challenge people in creating their own AI for a Game of
+Capture The Flag. The AISandbox offers functionality that takes away the
+difficulties of dealing with programming out parts like "is my opponent in my
+line of sight", or "", making the
+problem one only of implementing the motion model. The framework also does not
+give information about the opponents position, except for the case in which the
+opponent is directly in the line of sight of one of the teammates, exactly as
+one would expect in real life.
+
+It would not be efficient to create an AI from scratch for the purpose of
+this research, one of the contestants from the challenge will be
+used. This AI, Terminator\footnote{Terminator can be found at \url{https://github.com/eiisolver?tab=repositories}}, ended up in third place, making it possible to
+measure improvement by watching its performance against the top one and two
+
+\subsection{Motion Model}
+The motion model will be built using Maximum Entropy Inverse Reinforcement
+Learning.Although there has been done research to this before \citep{6374144}
+in regards to enriching game AI, there are some clear differences. 
+The model was tested on a different game, where only interception of one
+opponent was the objective. A game of Capture the Flag has some more different
+objectives and different opponents, so it would be interesting to see how well
+the model works when there are mulitple teammates and opponents in the game as
+well.
+The search only used an opponent model in the case they had seen the specific
+opponent played before. This can be improved upon by making multiple stereotype
+models that can be used in case some specific behavior is observed. 
+The research was only tested using one map. This can be improved upon by testing
+multiple different environments and showing how well this generalisation using
+only the features works.
+\subsection{Reasoning}
 
 \section{Evaluation}
-There are multiple ways to evaluate the model. As we have seen there have been
-instances of research that checks if a model makes humanlike predictions % cite
-or if its prediction has the smallest possible errors %cite
-The way the implementation of the research problem will be evaluated depends on
-how far the implementation will be finished.
+Not only does the implementation consist of two different parts, but the evaluation as well. The
+research question asks if it is possible to \emph{succesfully} build a motion
+model for a game of Capture the Flag that predicts enemy position and by
+checking if this \emph{improves} the performance of an existing game AI. To
+find out of the motion model is succesful, it has to be compared to something.
+Looking at the absolute error between where the enemy is and where the model
+predicts it is, a measure of accuracy can be constructed. By comparing the error
+measurement of other models (as researched by \citep{Hladky_anevaluation}
+\citep{weber2011aiide} \citep{Laird:2001:KYG:375735.376343} \citep{6374144}).
 
+To determine if the motion model is an improvement, the AI can be evaluated with
+and without de addition of the motion model. By setting up a competition between
+other opponents that participated in the AISandbox Challenge a good insight can
+be given in the improvement of the original model.
 \section{plan}
+\begin{table}
+\centering
+    \begin{tabular}{| l | l |}
+      \hline                        
+      Week No. & Planning \\
+      \hline
+      \hline
+      18 &  Implement IRL motion model \\
+      \hline
+      19 &  Implement IRL motion model \\
+      \hline
+      20 &  Implement model in AI code and work on reasoning\\
+      \hline
+      21 &  Work on reasoning aspect \\
+      \hline
+      22 &  Preperation midpresentation and assignment 8\\
+      \hline
+      23 &  Starting with evaluation\\
+      \hline
+      24 &  Assignment 9 and evaluation completion \\
+      \hline
+      25 &  Finishing paper \\
+      \hline
+      26 &  Preparing final presentation, finishing logbook and paper \\
+      \hline
+    \end{tabular}
+\end{table}
+In the beginning all time needs to be spend on creating the initial MA IRL
+motion model. Two weeks should be enough to implement this and to create a
+simple test that can validate it's accuracy. After these two weeks, the code
+should be integrated in the Terminator code. This should only take a few days,
+but due to possible unforseen difficulties could be extended to a week. The
+amount of work that the reasoner will cost depend on how much of the motion
+model will be actively used in reasoning for the AI. If only a single week is
+left after implementing the code into the Terminator code, it will probably only
+be used in few situations. After week 21 we should have a working AI that given
+some previous trajectories of opponents can accurately predict the opponents
+future positions depending on where they were sighted, and also react on them.
+The evaluation period of two weeks is for creating a data set on which the
+motion model can learn different behaviors of different opponents and to test
+how accurate these predictions are. The last week will be used for evaluating
+the improvrement of the performance of the AI with regards how it functioned
+before the motion model.
+
 
 \bibliographystyle{plain}
 \bibliography{references}
