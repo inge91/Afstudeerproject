@@ -1,15 +1,18 @@
 \documentclass{beamer}
 \usetheme{Madrid} % My favorite!
 \usepackage{color}
+\usepackage{hyperref}
 \usecolortheme{orchid} % Simple and clean template
 \setbeamercovered{invisible}
 \setbeamertemplate{navigation symbols}{} 
+\usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+
 %
 \title[Improving meIRL-based motion modelling]{Improving meIRL-based motion modelling in video
-games using player classification}
-\author[Inge Becht]{Inge Becht\\{\small Supervised by: Sander Bakkes}}
+games using general player classification}
+\author[Inge Becht]{\large{Inge Becht}\\{\small Supervised by: Sander Bakkes}}
 \institute[Universiteit van Amsterdam]
 {\large Universiteit van Amsterdam}
 
@@ -26,17 +29,17 @@ games using player classification}
 \begin{frame}
     \frametitle{Introduction}
     \begin{itemize}
-        \item{Research in game AI: human-like AI}
+        \item{Research topics in game AI}
             \begin{itemize}
                 \item adaptive
-                \item {\color{red}fair}
+                \item fair
                     \begin{itemize}
                         \item using imperfect information
                     \end{itemize}
             \end{itemize}
     \end{itemize}
     \begin{block}{Problem statement}
-        To what extent can player classification improve meIRL-based motion modelling
+        To what extent can general player classification improve meIRL-based motion modelling
         in video-games?
     \end{block}
     \begin{itemize}
@@ -47,12 +50,12 @@ games using player classification}
     \frametitle{Tools}
     \begin{minipage}[0.5\textheight]{\textwidth}
         \begin{columns}[T]
-            \begin{column}{0.6\textwidth}
+            \begin{column}{0.55\textwidth}
                 \begin{itemize}
                     \item{Capture the Flag (CTF)}
                         \begin{itemize}
                             \item Team multi-agent environment
-                            \item Single objective game
+                            \item Straightforward game objective
                         \end{itemize}
                     \item{AISandbox}
                         \begin{itemize}
@@ -67,7 +70,7 @@ games using player classification}
                         \end{itemize}
                 \end{itemize}
             \end{column}
-            \begin{column}{0.5\textwidth}
+            \begin{column}{1\textwidth}
                 \includegraphics[width=6cm]{CTF_Sandbox.jpg}
             \end{column}
         \end{columns}
@@ -75,24 +78,33 @@ games using player classification}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Background Motion Modelling}
-    \begin{itemize}
+    \frametitle{Background Motion Modeling}
+    \begin{minipage}[0.5\textheight]{\textwidth}
+        \begin{columns}[T]
+            \begin{column}{0.7\textwidth}
+                \begin{itemize}
         \item Maximum Entropy Inverse Reinforcement Learning (meIRL)
             \begin{itemize}
-                \item Positions expressed in terms of features
+                \item Position expressed in terms of features
+                \item Construct reward function 
                 \item Offline modelling
                 \item Distribution grid
             \end{itemize}
-        \item Has been done (Tastan et al., 2012), but:
+        \item Has been done \citep{6374144}, but:
             \begin{itemize}
-                \item Uses one model per human player
-                \item Doesn't check map invariance
-                \item Different gaming domain 
-                \item Only tested with interception reasoner
+                \item No general modelling
+                \item No examination of map invariance
+                \item Different domain
                     \end {itemize}
-                \item Make general classes of specific behaviours
-            \end{itemize}
-        \end{frame}
+                \item  General classes of specific behaviours
+                \end{itemize}
+            \end{column}
+            \begin{column}{1\textwidth}
+                \includegraphics[width=4cm]{heat_map}
+            \end{column}
+        \end{columns}
+    \end{minipage}
+\end{frame}
 
         \begin{frame}
             \frametitle{Approach Player Classification}
@@ -113,7 +125,7 @@ games using player classification}
                                 \item orientation
                                 \item position (expressed in features)
                             \end{itemize}
-                        \item gamestate, e.g.
+                        \item game state, e.g.
                             \begin{itemize}
                                 \item Both flags at base
                                 \item Both flags gone
@@ -121,7 +133,7 @@ games using player classification}
                                 \item Own flag intercepted
                             \end{itemize}
                     \end{itemize}
-                \item Classification method:K-nearest neighbors
+                \item Classification method not yet decided
             \end{itemize}
         \end{frame}
 
@@ -140,11 +152,10 @@ games using player classification}
             \end{itemize}
         \end{frame}
 
-
         \begin{frame}
             \frametitle{Evaluation}
             \begin{block}{Problem statement (again)}
-                To what extent can player classification improve meIRL-based motion modelling
+                To what extent can general player classification improve meIRL-based motion modelling
                 in video-games?
             \end{block}
             \begin{itemize}
@@ -153,9 +164,9 @@ games using player classification}
                         \item Needs labeled data to test with
                         \item Better than random
                     \end{itemize}
-                \item Does general player classification succesfully predict position?
+                \item Does general player classification successfully predict position?
                     \begin{itemize}
-                        \item Absolute error comparison with (Tastan et al., 2012)
+                        \item Absolute error comparison with \citep{6374144}
                     \end{itemize}
                     % Is this an honest measure of improvement?
                 \item Improvement of Terminator?
@@ -196,8 +207,11 @@ games using player classification}
                 \end{tabular}
             \end{table}
         \end{frame}
-
-
-
         % End of slides
+
+\bibliographystyle{apalike}
+\begin{frame}
+    \frametitle{References}
+\bibliography{references}
+\end{frame}
         \end{document} 
