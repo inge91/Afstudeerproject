@@ -1,37 +1,18 @@
 \documentclass{beamer}
 \usetheme{Madrid} % My favorite!
 \usepackage{color}
-%\usetheme{Boadilla} % Pretty neat, soft color.
-%\usetheme{default}
-%\usetheme{Warsaw}
-%\usetheme{Bergen} % This template has nagivation on the left
-%\usetheme{Frankfurt} % Similar to the default 
-%with an extra region at the top.
 \usecolortheme{orchid} % Simple and clean template
-%\usetheme{Darmstadt} % not so good
-% Uncomment the following line if you want %
-% page numbers and using Warsaw theme%
-% \setbeamertemplate{footline}[page number]
-%\setbeamercovered{transparent}
 \setbeamercovered{invisible}
-% To remove the navigation symbols from 
-% the bottom of slides%
 \setbeamertemplate{navigation symbols}{} 
-%
 \usepackage{graphicx}
-%\usepackage{bm}         % For typesetting bold math (not \mathbold)
-%\logo{\includegraphics[height=0.6cm]{yourlogo.eps}}
+\usepackage{wrapfig}
 %
-\title[Action Model Reasoner]{Making an Action Model Reasoner
-    For a Game of Capture
-the Flag}
-\author{Inge Becht}
-\institute[University of Amsterdam]
-{
-University of Amsterdam \\
-\medskip
-{}
-}
+\title[Improving meIRL-based motion modelling]{Improving meIRL-based motion modelling in video
+games using player classification}
+\author[Inge Becht]{Inge Becht\\{\small Supervised by: Sander Bakkes}}
+\institute[Universiteit van Amsterdam]
+{\large Universiteit van Amsterdam}
+
 \date{\today}
 % \today will show current date. 
 % Alternatively, you can specify a date.
@@ -42,143 +23,181 @@ University of Amsterdam \\
     \titlepage
 \end{frame}
 
-%FIXME Too many slides for a 8 minute presentation?
 \begin{frame}
     \frametitle{Introduction}
     \begin{itemize}
-        \item{Game AI research:}
+        \item{Research in game AI: human-like AI}
             \begin{itemize}
-                \item human-like
-                \item {\color{red}fairness}
-                    \begin{itemize}
-                        \item incomplete knowledge
-                    \end{itemize}
                 \item adaptive
+                \item {\color{red}fair}
+                    \begin{itemize}
+                        \item using imperfect information
+                    \end{itemize}
             \end{itemize}
     \end{itemize}
     \begin{block}{Problem statement}
-        %FIXME is this too global? Should I add ME IRL to the statement
-        Is it possible to \emph{successfully} build a motion model for a game of Capture the Flag that predicts enemy
-        position and can this \emph{improve} the performance of an AI?
+        To what extent can player classification improve meIRL-based motion modelling
+        in video-games?
     \end{block}
-\begin{itemize}
-    \item Two aspects to this research
-\end{itemize}
+    \begin{itemize}
+        \item Multiple aspects to this research
+    \end{itemize}
 \end{frame}
-
 \begin{frame}
     \frametitle{Tools}
+    \begin{minipage}[0.5\textheight]{\textwidth}
+        \begin{columns}[T]
+            \begin{column}{0.6\textwidth}
+                \begin{itemize}
+                    \item{Capture the Flag (CTF)}
+                        \begin{itemize}
+                            \item Team multi-agent environment
+                            \item Single objective game
+                        \end{itemize}
+                    \item{AISandbox}
+                        \begin{itemize}
+                            \item CTF AI development environment
+                            \item Used for competitions
+                        \end{itemize}
+                    \item{Use existing AI}
+                        \begin{itemize}
+                            \item Terminator: 3$^{rd}$ place in competition
+                            \item naive opponent response reasoner
+                            \item adding of own motion modeller
+                        \end{itemize}
+                \end{itemize}
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                \includegraphics[width=6cm]{CTF_Sandbox.jpg}
+            \end{column}
+        \end{columns}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Background Motion Modelling}
     \begin{itemize}
-        \item{Capture the Flag (CTF)}
+        \item Maximum Entropy Inverse Reinforcement Learning (meIRL)
             \begin{itemize}
-                \item Team multi-agent environment
-                \item Single target game
+                \item Positions expressed in terms of features
+                \item Offline modelling
+                \item Distribution grid
             \end{itemize}
-        \item{AISandbox}
+        \item Has been done (Tastan et al., 2012), but:
             \begin{itemize}
-                \item CTF AI development environment
-                \item Used for competitions
+                \item Uses one model per human player
+                \item Doesn't check map invariance
+                \item Different gaming domain 
+                \item Only tested with interception reasoner
+                    \end {itemize}
+                \item Make general classes of specific behaviours
             \end{itemize}
-        \item{Use pre-existing AI}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Approach Player Classification}
             \begin{itemize}
-                \item Terminator: 3$^{rd}$ place in competition
-                \item naive opponent response reasoner
-                \item add own motion model maker
+                \item Prediction depends on classification
+                \item Different behaviours, e.g.
+                    \begin{itemize}
+                        \item flag defensive
+                        \item flag attacking
+                        \item patrolling
+                        \item flag running defender
+                        \item flag retriever
+                    \end{itemize}
+                \item Classification Features,
+                    \begin{itemize}
+                        \item history of opponent spotting
+                            \begin{itemize}
+                                \item orientation
+                                \item position (expressed in features)
+                            \end{itemize}
+                        \item gamestate, e.g.
+                            \begin{itemize}
+                                \item Both flags at base
+                                \item Both flags gone
+                                \item Enemy flag intercepted
+                                \item Own flag intercepted
+                            \end{itemize}
+                    \end{itemize}
+                \item Classification method:K-nearest neighbors
             \end{itemize}
-    \end{itemize}
-\end{frame}
+        \end{frame}
 
-\begin{frame}
-\frametitle{Approach Motion Modelling}
-\begin{itemize}
-    \item Maximum Entropy Inverse Reinforcement Learning
-    \begin{itemize}
-        \item Feature based Reasoning
-        \item Learns offline given known trajectories
-        \item Distribution of occupation likelihood
-    \end{itemize}
-    %FIXME: Should i use references?
-    \item Has been done, but:
-        \begin{itemize}
-            \item Different gaming domain (Non-team Death match)
-            \item Uses one model per human player
-            \item Only tested with interception reasoner
-            \item Doesn't check map invariance
-        \end {itemize}
-\end{itemize}
-\end{frame}
-
-% FIXME Scientific enough?
-\begin{frame}
-\frametitle{Approach Reasoner}
-\begin{itemize}
-    \item What to do with new information?
-    \item Different aspects:
-    \begin{itemize}
-        \item Ambushing enemy
-        \item Avoiding enemy
-        \item Anticipating actions
-    \end{itemize}
-    \item broadness of implementation depends on time left
-    \item Finite state automaton
-\end{itemize}
-\end{frame}
+        \begin{frame}
+            \frametitle{Approach Reasoner}
+            \begin{itemize}
+                \item Current Terminator motion model:
+                    Only reasons on where enemy is seen
+                \item Add enemy position prediction to Terminator 
+                \item Further improvements:
+                    \begin{itemize}
+                        \item Ambushing enemy
+                        \item Avoiding enemy
+                        \item Anticipating actions
+                    \end{itemize}
+            \end{itemize}
+        \end{frame}
 
 
-\begin{frame}
-\frametitle{Evaluation}
-\begin{block}{Problem statement (again)}
-Is it possible to \emph{successfully} build a motion model for a game of Capture the Flag that predicts enemy
-position and can this \emph{improve} the performance of an AI?
-\end{block}
-\begin{itemize}
-    \item Evaluation contains two aspects
-    \item \emph{Successfully} build a motion model:
-        \begin{itemize}
-            \item absolute error
-            \item possibly compare with other models
-        \end{itemize}
-    % Is this an honest measure of improvement?
-    \item \emph{Improving} performance of an AI:
-        \begin{itemize}
-            \item Create Competition
-            \item Depends on success of motion model.
-        \end{itemize}
-\end{itemize}
-\end{frame}
+        \begin{frame}
+            \frametitle{Evaluation}
+            \begin{block}{Problem statement (again)}
+                To what extent can player classification improve meIRL-based motion modelling
+                in video-games?
+            \end{block}
+            \begin{itemize}
+                \item How well can behaviour be classified?
+                    \begin{itemize}
+                        \item Needs labeled data to test with
+                        \item Better than random
+                    \end{itemize}
+                \item Does general player classification succesfully predict position?
+                    \begin{itemize}
+                        \item Absolute error comparison with (Tastan et al., 2012)
+                    \end{itemize}
+                    % Is this an honest measure of improvement?
+                \item Improvement of Terminator?
+                    \begin{itemize}
+                        \item Create Competition
+                        \item Compare performance by win-rate
+                    \end{itemize}
+            \end{itemize}
+        \end{frame}
 
-\begin{frame}
-\frametitle{Plan}
-\begin{table}
-\centering
-    \begin{tabular}{| l | l |}
-      \hline                        
-      Week No. & Planning \\
-      \hline
-      \hline
-      18 &  Implement IRL motion model \\
-      \hline
-      19 &  Implement IRL motion model \\
-      \hline
-      20 &  Implement model in AI code and work on reasoning\\
-      \hline
-      21 &  Work on reasoning aspect \\
-      \hline
-      22 &  Preparation midpresentation and assignment 8\\
-      \hline
-      23 &  Starting with evaluation\\
-      \hline
-      24 &  Assignment 9 and evaluation completion \\
-      \hline
-      25 &  Finishing paper \\
-      \hline
-      26 &  Preparing final presentation, finishing logbook and paper \\
-      \hline
-    \end{tabular}
-\end{table}
-\end{frame}
+        \begin{frame}
+            \frametitle{Plan}
+            \begin{table}
+                \centering
+                \begin{tabular}{|l|p{5cm}|p{4cm}|}
+                    \hline                        
+                    Week No. & Research Planning & Report planning \\
+                    \hline
+                    \hline
+                    18 &  Implement IRL motion model& \\
+                    \hline
+                    19 &  Implement IRL motion model& \\
+                    \hline
+                    20 &  Create classifier&\\
+                    \hline
+                    21 &  Implement into Terminator AI& \\
+                    \hline
+                    22 & & Preparation midpresentation and assignment 8\\
+                    \hline
+                    23 &  Evaluation of classifier, possible adaption&\\
+                    \hline
+                    24 &  Evaluation of AI performance & Assignment 9 \\
+                    \hline
+                    25 &  Finishing paper & \\
+                    \hline
+                    26 & Finishing paper & Preparing final presentation and logbook \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{frame}
 
 
 
-% End of slides
-\end{document} 
+        % End of slides
+        \end{document} 
