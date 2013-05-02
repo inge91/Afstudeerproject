@@ -4,7 +4,7 @@
 \usepackage{natbib}
 \usepackage{placeins}
 \usepackage{graphicx}
-\usepackage[margin=1.0in]{geometry}
+\usepackage[margin=0.95in]{geometry}
 
 \author{Inge Becht\\
         \small{Supervised by Sander Bakkes}}
@@ -100,22 +100,14 @@ only used an motion model in the case they had seen the specific
 opponent played before. This can be improved upon by making multiple prototype
 models that can be used in case some specific behavior is observed. 
 
-The basic idea of IRL is that the reward function of a Markov Decision Process
+The basic idea of meIRL is that the reward function of a Markov Decision Process
 (which in essence the problem of motion modelling is) has to be learned by
 observing a set of trajectories belonging to a specific behaviour. 
 By expressing these set of visited positions in
 features that are map invariant, the reward function can be decided through
 attaching weights to each of these features and distributing these weights over
-all positions of the map. Such features are:
-
-\begin{itemize}
-    \item Distance to enemy base
-    \item Distance to own base
-    \item Distance to enemy flag
-    \item Distance to own flag
-    \item Distance to map center
-\end{itemize}
-
+all positions of the map. Such features are the distance to the bases, the flags
+and the map center.
 
 \subsection{Player classification}
 To extend the meIRL motion modeller with some prototypical classes instead of
@@ -124,17 +116,14 @@ a way to classify the player's behaviour during the game to know which model to
 use. It seems most practical to classify not playing-style itself, but typical
 behaviours that a player can show, making it necessary to switch
 between different types of motion models during the game.
-Some behaviours that come to mind for this particular game domain:
-\begin{itemize}
-    \item Defending own flag
-    \item Attacking opponent's flag
-    \item Patrolling, looking for enemies to kill
-\end{itemize}
+Some behaviours that come to mind for this particular game domain are flag
+defending, flag attacking and patrolling (where you look for enemies to kill).
+
 The behaviours that could possibly be distinguished need to be modelled by the
 meIRL-based modeller, but it should also be possible to classify them in real time when playing.
-To detect these behaviours, a small collection of features:
+To detect these behaviours, a small collection of features are used:
 \begin{itemize}
-    \item history of opponent spotting
+    \item history of opponent spotted
         \begin{itemize}
             \item orientation
             \item position (expressed in features)
