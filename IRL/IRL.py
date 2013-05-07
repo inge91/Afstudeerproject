@@ -144,6 +144,8 @@ def backward_pass(terminal_state, N):
 def Z_state(state, Zs, Za, N):
     if N == 0:
         return Zs 
+    #TODO replace this:
+        return Z_action(action, Zs, Za, state, N)
     # get all actions from which you can possibly end up in state
     actions = get_opposite_actions(get_actions(state))
     
