@@ -2,245 +2,264 @@
 \usepackage[english]{babel}
 \usepackage{hyperref}
 \usepackage{natbib}
+\usepackage{placeins}
 \usepackage{graphicx}
+\usepackage[margin=0.95in]{geometry}
 
-\author{Inge Becht}
-\title{Assignment 6 - Project Proposal\\ 
- Making an Action Model Reasoner for a Game of Capture the Flag}
-
+\author{Inge Becht\\
+        \small{Supervised by Sander Bakkes}}
+\title{Assignment 6 - Project Proposal:\\ 
+Improving meIRL-based motion modelling in video
+games using general player classification}
 \begin{document}
 \maketitle
 
+\clearpage
+%done... could add another? 
 \section{Literature Review}
-One of the challenges in game AI is creating artificial agents that can make
+One of the challenges in game AI research is how to create artificial agents that can make
 decisions based on a game situation, without the human players having the
 feeling that the AI is cheating. Creating such a fair AI can be achieved by
 giving it imperfect knowledge of the game world, for example by keeping parts of
-the game map unknown or by limiting the knowledge of the wherabouts of the
+the game map unknown or by limiting the knowledge of the whereabouts of the
 opponent. In the latter case, the AI would benefit from creating motion models that
 are able to predict the position of an opponent and to
 reason with this uncertain knowledge.
 
-In the works of \citep{Hladky_anevaluation} two different models for opponent
+The creation of such motion models that deal with position uncertainty  
+has been the topic of various researchers. In 
+the works of \citep{Hladky_anevaluation} two different models for opponent
 position prediction are tested. The idea of the research is to see how well the
 predictions can be made, as well as to test how human like the predictions made
 are. They test this for both Hidden Semi Markov Models and Particle filters, by
 letting people predict opponent position in the game Counter Strike, and then
-look how well these models perform in regard to human prediction. The conclusion
-of the research is that Hidden Semi Markov Models work best, and are similar in
-accuracy towards how humans would predict opponent behavior. In case mistakes
-are made by the model, the mistakes are very human-like, making the AI more
-believable and less perfect. The research is thus mostly working on being
-human-like, but does not work out how to integrate such a prediction system in a
-multi-agent AI system. I could possibly use their implementation model of the
-particle filter or the Hidden Semi-Markov Model to test how well a multi-agent
-system can be made that reasons about this uncertainty data.  
-In \citep{weber2011aiide} a same approach is made using a particle model, but this
-time not the focus on if the predictions made are human-like but if integrating
-this in an AI system can enhance performance. Essentially this is the same that
-I want to do, except in this case it is used on a different game type, a Real
-Time Strategy game. The game Star Craft was used and the EISBot was enhanced
-with their developed reasoning capabilities. The outcome was hat the model
-outperformed the other models by 10 \%, but that making more game states
-available to the bot does not always improve the performance. Although this
-research does sound quite similar to my own research question, the domain is
-different enough to expect different result, but still their particle model
-implementation could help me with developing my own way of prediction opponent
-position.  
-Instead of trying to predict the opponent position, the authors
-of \citep{Laird:2001:KYG:375735.376343} focused on creating a reasoner that
-anticipates behavior of an opponent in Quake. They did this by enhancing the
-Soar Quakebot with anticipation strategies. These anticipation strategies are
-used only in case the bot has a high chance of successfully predicting what the
-opponent is about to do, and in this case reasons what the bot might do if he
-was in its place. Using this chunking is applied that construct some rules that
-completely predict the actions of the opponent and how to respond towards this
-situation. Although they state their additions were fruitful they do not really
-show experiments that confirm this. Also there are still elements in their
-reasoning that could be approved upon, by using recursive reasoning and by
-making it more general for other games. Although the reasoner is developed for a
-single reasoning agent, the ideas given could help for a multi-agent based
-system. While the previous articles give inspiration towards how to make models
-for the prediction of opponent position, this article goes more in depth on how
-to create the reasoning part of the AI.  \\\\ Article
-\citep{Bennewitz05learningmotion} deals with the same problem of tracking
-people, but does this in real life situations, with a robot that assists humans
-in day to day tasks. To keep the robot from interfering it needs to predict
-where humans are heading and what their intensions are. This papers explains all
-aspects of these kinds of predictions. For example, using sensor data to sense
-humans and how to keep track of a single person. Both these aspects are less
-important for my own research, but there are sections that explain how Hidden
-Markov Models can be used so that motions patterns can be learned, something
-that is indeed interesting for me. as well as the use of an Expectation
-Maximisation algorithm. In section 2 their own way of modelling expectations of
-human motion is explained, and some basic ideas can be retrieved for own
-research. In section 3 Hidden Markov Models are used to learn motion patterns.
-This can come in really handy in case of building a reasoner, which in essence
-should be able to recognise some patterns and then use these patterns to respond
-to a given situation. Section 4 is less important, as it is about person
-detection and identification, something I will presume is given information in
-the game AI world, or at least does not need any sensor data like in case of a
-robot.  The conclusion of their own research is that motion patterns can indeed
-be learned using the Hidden Markov Models and that it is able to reason with
-this knowledge.  \\\\ In the paper \citep{6374144} both the combination of
-making predictive models for opponent positions is discusses as well as a way of
-intercepting the opponents in game. The predictive models are made using a
-particle filter both with IRL and Brownian motion  to test which works best. Not
-surprisingly, IRL seems to give the most accurate result and helps to intercept
+look how well these models perform in regard to human prediction. 
+In \citep{weber2011aiide} the research is more directed towards how much 
+integrating a particle filter in an AI system enhances performance of an AI. The
+experiments were conducted on a Real Time Strategy game, and gave promising
+results, implying that predictional reasoner can improve the performance of an
+AI. In the paper \citep{6374144} both the combination of
+making predictive models for opponent positions is discussed, as well as a way of
+intercepting the opponents in a game by using this information. 
+The predictive models are made using a particle filter both with Maximum
+Entropy Inverse Reinforcement Learning (meIRL) and Brownian motion to test which works best. Not
+surprisingly, meIRL seems to give the most accurate result and helps to intercept
 the opponent the best. For interception 3 different heuristics are tested.
-Although it looks a lot like what I want to do, it is different in multiple
-aspects. In this case a different game with different goals is used. There is
-only 1 bot against multiple different opponents, and it is only tried to
-intercept.
 
-
-There have been different studies on the topic of opponent motion modelling.
-In the works of \citep{Hladky_anevaluation} two different models for opponent
-position prediction are tested in the team oriented game Counter strike. 
-The tested motion models were
-Hidden Semi Markov Models and Particle filters.
-The research mostly thus concentrated on researching how human-like the
-models are, but does not research how to successfully integrate such a
-prediction system in a multi-agent AI system.
-In \citep{weber2011aiide} the research is more directed towards how much does
-integrating a particle filter in an AI system enhance performance. Essentially it answers
-the same question as brought up in this thesis proposal, but on a different game
-domain (Real Time Strategy instead of First Person Shooter) as well was using a
-different technique. 
-Instead of trying to predict the opponent position, the authors of
-\citep{Laird:2001:KYG:375735.376343} focused on creating a reasoner that
-anticipates behavior of an opponent in Quake. They did this by enhancing the
-Soar Quakebot with anticipation strategies. This approach can be of use towards
-creating a reasoner, but differs in it not being used on a motion model, as well
-as not answering the question \emph{can it successfully improve AI?}
-In the paper \citep{6374144} both the combination of making predictive models
-for opponent positions is discusses as well as a way of intercepting the
-opponents in game. The predictive models are implemented using a particle filter both
-with Maximum Entropy Inverse Reinforcement Learning and Brownian motion
-
+%done
 \section{Research Question}
 In my thesis I want to improve upon the last presented technique of motion
-modelling, by answering the question:
+modelling, by answering the question
 \begin{quotation}
 To what extent can player classification improve meIRL-based motion modelling in video-games?
 \end{quotation}
-It is clear that this problem has multiple aspects to it. Not
+To answer this question, not
 only is there a need for an implementation of the motion model itself, there is
 also a need for building a reasoner that takes actions on the prediction of the
-motion model as well as a classifier that classifies behavior. 
-In the implementation these different sides of the research will be
-more thoroughly explained.
+motion model, as well as a classifier that classifies the behaviour. These three
+elements will also play a part in the evaluation, as will be explained later.
 
 \section{Method and Approach}
-When we look at the research question, it is clear that this problem has multiple aspects. Not
-only is there a need for an implementation of the motion model, there is
-also a need for building a reasoner that takes actions on the prediction of the
-motion model. This section will talk about both aspects separately, but first an
-overview of tools that will be used is given.
+Here a short overview of the motion model, classifier and reasoner are given,
+but first some mention of the game domain and the tools used.
 
 \subsection{Capture the Flag}
-Capture The Flag (CTF) is a well known combat objective found in video games
-like the Call of Duty series and Counter strike, in which two enemy teams try to
-catch the other one's flag from its spawn area and bringing it back to base.
+Capture The Flag (CTF) is a well known combat objective found in the First
+Person Shooter video game genre, and will be the domain in which the experiments
+are conducted. In short, two enemy teams try to
+catch the other team's flag from its spawn area and bringing it back to base.
 Both teams can shoot at each other and in case the flag bearer gets killed, the
 flag will stay at its position until its team retrieves it or another enemy
 opponent catches it and becomes the new flag bearer. The game is won after one
 of the teams has caught the flag for a pre-determined number of times.
-
+The game objective is not too complex (we know the objective of the other team), making the
+creation of a motion model a straightforward procedure.
 
 \subsection{Tools}
-The research is conducted within the AISandbox, a framework created by the
+The research will make use of the AISandbox, a framework created by the
 \url{AIGameDev.com} to challenge people in creating their own AI for a Game of
 Capture The Flag. The AISandbox offers functionality that takes away the
-difficulties of dealing with programming out parts like "is my opponent in my
-line of sight", or "", making the
-problem one only of implementing the motion model. The framework also does not
-give information about the opponents position, except for the case in which the
-opponent is directly in the line of sight of one of the teammates, exactly as
-one would expect in real life.
+difficulties that are not directly related towards answering my research
+question, like "are there enemies in my line of sight" or "how do I move through
+the map", making the
+problem only of implementing the motion model. The framework also does not
+give information about the opponent's position, except for the case in which the
+opponent is directly in the line of sight of one of the teammates, the same
+assumption as the research question makes.
 
 It would not be efficient to create an AI from scratch for the purpose of
-this research, one of the contestants from the challenge will be
-used. This AI, Terminator\footnote{Terminator can be found at \url{https://github.com/eiisolver?tab=repositories}}, ended up in third place, making it possible to
-measure improvement by watching its performance against the top one and two
+this research, so one of the contestants from last competition will be
+used. This AI, Terminator\footnote{Terminator can be found at
+\url{https://github.com/eiisolver?tab=repositories}}, ended up in third place.
 
-\subsection{Motion Model}
+\subsection{Motion Modelling}
 The motion model will be built using Maximum Entropy Inverse Reinforcement
-Learning.Although there has been done research to this before \citep{6374144}
-in regards to enriching game AI, there are some clear differences. 
-The model was tested on a different game, where only interception of one
-opponent was the objective. A game of Capture the Flag has some more different
-objectives and different opponents, so it would be interesting to see how well
-the model works when there are multiple teammates and opponents in the game as
-well.
-The search only used an opponent model in the case they had seen the specific
-opponent played before. This can be improved upon by making multiple stereotype
+Learning. Although implementing it for the purpose of motion modelling has been done before
+\citep{6374144} my approach will be different. Their research
+only used an motion model in the case they had seen the specific
+opponent played before. This can be improved upon by making multiple prototype
 models that can be used in case some specific behavior is observed. 
-The research was only tested using one map. This can be improved upon by testing
-multiple different environments and showing how well this generalisation using
-only the features works.
+
+The basic idea of meIRL is that the reward function of a Markov Decision Process
+(which in essence the problem of motion modelling is) has to be learned by
+observing a set of trajectories belonging to a specific behaviour. 
+By expressing these set of visited positions in
+features that are map invariant, the reward function can be decided through
+attaching weights to each of these features and distributing these weights over
+all positions of the map. Such features are the distance to the bases, the flags
+and the map center.
+
+\subsection{Player classification}
+To extend the meIRL motion modeller with some prototypical classes instead of
+using the same model for one player only, a new problem arises. There has to be
+a way to classify the player's behaviour during the game to know which model to
+use. It seems most practical to classify not playing-style itself, but typical
+behaviours that a player can show, making it necessary to switch
+between different types of motion models during the game.
+Some behaviours that come to mind for this particular game domain are flag
+defending, flag attacking and patrolling (where you look for enemies to kill).
+
+The behaviours that could possibly be distinguished need to be modelled by the
+meIRL-based modeller, but it should also be possible to classify them in real time when playing.
+To detect these behaviours, a small collection of features are used:
+\begin{itemize}
+    \item history of opponent spotted
+        \begin{itemize}
+            \item orientation
+            \item position (expressed in features)
+        \end{itemize}
+    \item game state, e.g.
+        \begin{itemize}
+            \item Both flags at base
+            \item Both flags gone
+            \item Enemy flag intercepted
+            \item Own flag intercepted
+        \end{itemize}
+\end{itemize}
+
+Because the behaviour can change between sightings of the enemy, the difficulty
+lies in deciding what previous sightings should be considered and which not. I
+have not yet come up with a solution, except for keeping track of the time of
+the sightings and ignoring data that is too old.
+
+The best possible classifier still needs to be decided, which probably can be
+done best when done with collecting the above feature data (so multiple
+classifiers can be tested at once).
+
 \subsection{Reasoning}
+Having a motion modeller and player classification is not enough, there needs to
+be a part of the AI that uses the motion prediction to act upon a given
+situation. Due to time constraints it might be a bit hard to develop the
+reasoner from scratch, so the Terminator AI will be enhanced with the
+predictions of the motion model.
+
+Terminator in its current state uses a histogram like approach that maps out all
+the positions where an enemy has been sighted in the past (of the current game).
+Using this histogram, safe routes are mapped out for the flag carrier and
+ambushes are placed.
+By integrating the meIRL-based motion model with this sighting model, safe paths
+have a higher chance of being safe (especially when the opponent AI has some
+adaptive capabilities, as earlier sightings don't give much information about
+the current game state). 
+
+In case there is still time left, it would be a good improvement to enhance the
+AI with a reasoner that can look further into the future for some anticipating
+ambushes, but it is highly unlikely there will be time left for this.
+
 
 \section{Evaluation}
-Not only does the implementation consist of two different parts, but the evaluation as well. The
-research question asks if it is possible to \emph{successfully} build a motion
-model for a game of Capture the Flag that predicts enemy position and by
-checking if this \emph{improves} the performance of an existing game AI. To
-find out of the motion model is successful, it has to be compared to something.
-Looking at the absolute error between where the enemy is and where the model
-predicts it is, a measure of accuracy can be constructed. By comparing the error
-measurement of other models (as researched by \citep{Hladky_anevaluation}
-\citep{weber2011aiide} \citep{Laird:2001:KYG:375735.376343} \citep{6374144}).
+To make the evaluation answer the research question, different elements of
+the implementation need to be reviewed. 
+Firstly, it is important that the classifier is working well. We want that
+given some annotated behaviour, it is possible for the classifier to correctly
+identify the right kind of behaviour, so that the right prediction model will
+be applied.
+To test this, some trajectories (preferably different once than trained
+with) should be classified. 
 
-To determine if the motion model is an improvement, the AI can be evaluated with
-and without de addition of the motion model. By setting up a competition between
-other opponents that participated in the AISandbox Challenge a good insight can
-be given in the improvement of the original model.
+Because of the way the research question is formulated, some comparison
+should be made with the works of \citep{6374144} to conclude if the addition of
+the general player classification is an improvement.
+To measure their own success of motion modelling with meIRL, a comparison with a Brownian motion
+particle filter motion model was made by comparing absolute errors between
+prediction and real performance. If I repeat the same approach in my own
+research when measuring absolute error, something meaningful can be said about
+these results, depending on how much more of an improvement is seen between
+Brownian motion and meIRL.
+
+A last way with which to evaluate the player classification addition, is by
+looking at the change in performance of the Terminator AI when the classifier is
+integrated. By repeating the competition the Terminator took part in and looking
+at the new win-rates, one can conclude if the meIRL-based classification
+approach stands a chance in practical situations. Although it might take some
+time to get the presentation up and running, it is a reasonable possibility
+as the source code for all competing bots will become available at the end of April.
+
+Evaluating these three parts would give the best idea of the
+measurable impact of general player classification, but it might be the case
+that due to time constraints only examining the first two will be achievable.
+
+\FloatBarrier
+
+%done
 \section{plan}
 \begin{table}
-\centering
-    \begin{tabular}{| l | l |}
-      \hline                        
-      Week No. & Planning \\
-      \hline
-      \hline
-      18 &  Implement IRL motion model \\
-      \hline
-      19 &  Implement IRL motion model \\
-      \hline
-      20 &  Implement model in AI code and work on reasoning\\
-      \hline
-      21 &  Work on reasoning aspect \\
-      \hline
-      22 &  Preparation midpresentation and assignment 8\\
-      \hline
-      23 &  Starting with evaluation\\
-      \hline
-      24 &  Assignment 9 and evaluation completion \\
-      \hline
-      25 &  Finishing paper \\
-      \hline
-      26 &  Preparing final presentation, finishing logbook and paper \\
-      \hline
-    \end{tabular}
+%\makebox(0, 0)[h]{
+    \centerline{
+    \begin{tabular}{|l|l|p{6cm}|}
+        \hline                        
+        Week No. & Research Planning & Report planning \\
+        \hline
+        \hline
+        18 &  Implement meIRL motion model& \\
+        \hline
+        19 &  Implement meIRL motion model& \\
+        \hline
+        20 &  Create classifier&\\
+        \hline
+        21 &  Implement into Terminator AI& \\
+        \hline
+        22 & & Preparation midpresentation and assignment 8\\
+        \hline
+        23 &  Evaluation of classifier, possible adaption&\\
+        \hline
+        24 &  Evaluation of AI performance & Assignment 9 \\
+        \hline
+        25 &  Finishing paper & \\
+        \hline
+        26 & Finishing paper & Preparing final presentation and logbook \\
+        \hline
+\end{tabular}}
+    %}
+    \label{tab:plan}
 \end{table}
-In the beginning all time needs to be spend on creating the initial MA IRL
-motion model. Two weeks should be enough to implement this and to create a
-simple test that can validate it's accuracy. After these two weeks, the code
-should be integrated in the Terminator code. This should only take a few days,
-but due to possible unforeseen difficulties could be extended to a week. The
-amount of work that the reasoner will cost depend on how much of the motion
-model will be actively used in reasoning for the AI. If only a single week is
-left after implementing the code into the Terminator code, it will probably only
-be used in few situations. After week 21 we should have a working AI that given
+
+Table \ref{tab:plan} shows in short the planning for the upcoming weeks. The
+planning is based on a weekly schedule, because I do not think planning per day
+would give a realistic view at all of how my time will be spend (this probably
+can only be done for one upcoming week at a time, as the planning of the
+further weeks depends entirely on what you get done in the current week). 
+
+At the start of week 18,
+the main objective will be to create the initial meIRL-based
+motion model. Two weeks should be enough to gain complete understanding about
+the mathematics involved, and to implement it. At the end of week 19 I want to
+make sure the implementation is correct by testing on small situations. At the
+beginning of week 20 the main focus will lie on creating the classifier. Some of
+the tasks involved are making sure the necessary features can easily be
+extracted from a running game, and choosing a method of classification. At the
+end of the week the decision on a classifier should be definite.
+With presumably the classifier and motion modeller completed, week 21 is
+reserved for integrating the classifier into the existing AI code, so that the
+right predictions are made every time an opponent is observed, and the AI also
+reasons about predicted data. After week 21 we should have a working AI that given
 some previous trajectories of opponents can accurately predict the opponents
 future positions depending on where they were sighted, and also react on them.
-The evaluation period of two weeks is for creating a data set on which the
-motion model can learn different behaviors of different opponents and to test
-how accurate these predictions are. The last week will be used for evaluating
-the improvement of the performance of the AI with regards how it functioned
+The evaluation period of two weeks is first for evaluating the behavior of the
+classification model. The second week will be used for evaluating
+the improvement of the performance of the AI with regards to how it functioned
 before the motion model.
-
+The last two weeks are for finishing the report.
 
 \bibliographystyle{plain}
 \bibliography{references}

@@ -1,0 +1,3 @@
+[submodule "Terminator_Classifier"]
+	path = Terminator_Classifier
+	url = https://github.com/inge91/Terminator_Classifier.git
