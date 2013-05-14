@@ -19,7 +19,6 @@ for i=1:size(Feat,1)
         Feat(i,j,:) = Features(i,j,map,obst,gates);
     end
 end
-Feat
 % Start gate and end gate might be problematic... Keep in mind.
 stGate = 1;
 enGate = 4;

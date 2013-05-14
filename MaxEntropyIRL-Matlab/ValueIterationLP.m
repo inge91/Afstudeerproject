@@ -42,14 +42,16 @@ end
 
 % Optimize the problem
 %cplex.solve();
-[x,fval,exitflag,output] = linprog(f,Amatrix,b);
+[x,fval] = linprog(f,Amatrix,b);
+
+%[x,fval,exitflag,output] = glpk(f,amatrix,b);
 
 
 % Write the solution
 %fprintf('\nSolution status = %s\n',cplex.Solution.statusstring);
 %fprintf('Solution value = %f\n',cplex.Solution.objval);
 %values = cplex.Solution.x';
-fprintf('\nStatus = %d, in %d iterations\n',exitflag,output.iterations);
+fprintf('\nStatus = UNKNOWN, in N iterations\n');
 fprintf('Solution value = %f\n',fval);
 values = x';
 

@@ -13,7 +13,8 @@ function DrawValues( values, map, varargin )
             s = (i-1)*size(map,2) + j;
             if map(i,j)==0
                 f = fill([j-1 j j j-1],[i-1 i-1 i i],color);
-                alpha(f,(values(s)-minVal)/(maxVal-minVal));
+                set(f,'facealpha',(values(s) - minVal) / (maxVal - minVal));
+                %facealpha(f,(values(s)-minVal)/(maxVal-minVal));
             end
         end
     end
