@@ -7,28 +7,24 @@ function DrawMap( map, varargin )
 %   2: gates
 %  -1: extra cells that are dyed in yellow
 fig = figure();
-set(gca,'YDir','reverse');
+%set(gca,'YDir','reverse');
 hold on;
-axis([0 size(map,1) 0 size(map,2)]);
-axis square;
+axis([0 88 0 50]);
+%axis square;
 % axis equal;
 set(fig,'Position',[1314 397 600 600]);
 
 
-for i=0:size(map,1)
-    plot([0 size(map,2)],[i i]);
-end
 for i=0:size(map,2)
-    plot([i i],[0 size(map,1)]);
+    plot([0 size(map,1)],[i i]);
 end
-for i=1:size(map,1)
-    for j=1:size(map,2)
-        if map(i,j) == 1
+for i=0:size(map,1)
+    plot([i i],[0 size(map,2)]);
+end
+for i=1:size(map,2)
+    for j=1:size(map,1)
+        if map(j,i) == 1
             fill([j-1 j j j-1],[i-1 i-1 i i],'b');
-        elseif map(i,j) == 2
-            fill([j-1 j j j-1],[i-1 i-1 i i],'g');
-        elseif map(i,j) == -1
-            fill([j-1 j j j-1],[i-1 i-1 i i],'y');
         end
     end
 end
