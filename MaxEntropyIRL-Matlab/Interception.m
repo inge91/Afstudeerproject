@@ -71,8 +71,6 @@ while true
     terminal = Coor2State(path(end,1), path(end,2));
     Za = zeros(numStates,4);
 
-
-
     %1. Z_{s_terminal} = 1
     Zs(terminal) = 1;
 
@@ -84,6 +82,8 @@ while true
             [r,c] = State2Coor(i);
             if map(r,c)==1; continue; end
             reward = W * squeeze(Feat(r,c,:));
+            reward = reward / 9;
+
             if c>1
                 k = Coor2State(r,c-1);
                 Za(i,1) = exp(reward) * Zs(k);
@@ -105,12 +105,9 @@ while true
             if i==terminal
                 Zs(i) = Zs(i)+1;
             end
-        %    Zs(i)
-        %    reward
-        %    fflush(stdout)
+
         end
     end
-    "\n\n"
 
 
     P = zeros(numStates, 4);
@@ -175,7 +172,6 @@ while true
     
     %debug report
     disp(['dL:  ' num2str(dL')]);
-    W
 
     fflush(stdout)
     
@@ -202,9 +198,9 @@ function f = Features(data_map, i,j, map, obst, d)
         m = max(c);
         val = data_map(((i-1) * 50) + j, l);
         if val == -1;
-            f = [f; 1];
+            f = [f; 0.5];
         else
-            f = [f; val/m];
+            f = [f; val/m-0.5];
         end
     end
 
