@@ -65,12 +65,13 @@ end
 
 numStates = numel(map);
 
+
 while true
     Zs = zeros(numStates,1);
-    %should be more than one in the furute
     terminal = Coor2State(path(end,1), path(end,2));
-    %has 8 states, 8 possible movements
-    Za = zeros(numStates,8);
+    Za = zeros(numStates,4);
+
+
 
     %1. Z_{s_terminal} = 1
     Zs(terminal) = 1;
@@ -81,7 +82,6 @@ while true
         for i=1:numStates
         %     Za(i,1) = exp()*Z(
             [r,c] = State2Coor(i);
-            % in case the map position is barricaded don't consider it
             if map(r,c)==1; continue; end
             reward = W * squeeze(Feat(r,c,:));
             if c>1
@@ -100,28 +100,8 @@ while true
                 k = Coor2State(r-1,c);
                 Za(i,4) = exp(reward) * Zs(k);
             end
-            %add 4 extra new moves for diagonal actions
-            if c > 1 & r > 1
-                k = Coor2State(r-1, c-1);
-                Za(i,5) = exp(reward) * Zs(k);
-            end
-
-            if c > 1 & r < 88
-                k = Coor2State(r + 1, c - 1);
-                Za(i,6) = exp(reward) * Zs(k);
-            end
-
-            if c < 50 & r < 88
-                k = Coor2State(r + 1, c + 1);
-                Za(i,7) = exp(reward) * Zs(k);
-            end
-            if c < 50 & r > 1
-                k = Coor2State(r - 1, c + 1);
-                Za(i,8) = exp(reward) * Zs(k);
-            end
 
             Zs(i) = sum(Za(i,:));
-            %TODO: fix this for multiple terminals
             if i==terminal
                 Zs(i) = Zs(i)+1;
             end
@@ -129,12 +109,12 @@ while true
     end
 
 
-    P = zeros(numStates, 8);
+    P = zeros(numStates, 4);
 
     % 3. Local action probability computation
     for i=1:numStates
         if Zs(i)==0; continue; end
-        for j=1:8
+        for j=1:4
             P(i,j) = Za(i,j)/Zs(i);
         end
     end
@@ -142,10 +122,7 @@ while true
     % Forward pass
     T = N;
     Dt = zeros(numStates, T);
-
-    %TODO initial should also be multiple initials
     initial = Coor2State(path(1,1), path(1,2));
-
     % 4. D_{s_{i,t}} = P(s_i=s_{initial}
     Dt(initial, 1) = 1;
 
@@ -170,27 +147,6 @@ while true
                 total = total + Dt(i,t)*P(i,4);
             end
 
-            %add 4 extra new moves for diagonal actions
-            if c > 1 & r > 1
-                i = Coor2State(r-1, c-1);
-                total = total + Dt(i, t) * P(i, 5);
-            end
-
-            if c > 1 & r < 88
-                i = Coor2State(r+1, c-1);
-                total = total + Dt(i, t) * P(i, 6);
-            end
-
-            if c < 50 & r < 88
-                i = Coor2State(r + 1, c + 1);
-                total = total + Dt(i, t) * P(i, 7);
-            end
-            if c < 50 & r > 1
-                i = Coor2State(r - 1, c + 1);
-                total = total + Dt(i, t) * P(i, 8);
-            end
-
-
             Dt(k,t+1) = total;
         end
     end
@@ -208,15 +164,14 @@ while true
 
     dL = (f-fe)/50;
     W = W+dL';
+    dL
     
-    'hello'
     %debug report
     disp(['dL:  ' num2str(dL')]);
     
     if abs(dL) < 1E-5; break;  end
 
 end
-
 
 
 disp(['W:  ' num2str(W)]);
