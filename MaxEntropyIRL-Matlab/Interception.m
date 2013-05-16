@@ -5,8 +5,8 @@ global Feat;
 
 isLearning = 1;
 
-N = 2;
-W = [0.1228 1.9574 0.37318 1 1 1 1 1 1];
+N = 10;
+W = [0.1228 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1];
 
 [map, obst] = LoadMap('map4.txt');
 % for me feature count is much higher size(W) is approximately 16
@@ -105,8 +105,12 @@ while true
             if i==terminal
                 Zs(i) = Zs(i)+1;
             end
+        %    Zs(i)
+        %    reward
+        %    fflush(stdout)
         end
     end
+    "\n\n"
 
 
     P = zeros(numStates, 4);
@@ -159,15 +163,21 @@ while true
     for i=1:numStates
         D(i) = sum(Dt(i,:));
         [r,c] = State2Coor(i);
+        %fe
+        %D(i)
+        %Feat(r,c,:)
+        %squeeze(Feat(r,c,:))
         fe = fe + D(i) * squeeze(Feat(r,c,:));
     end
 
     dL = (f-fe)/50;
     W = W+dL';
-    dL
     
     %debug report
     disp(['dL:  ' num2str(dL')]);
+    W
+
+    fflush(stdout)
     
     if abs(dL) < 1E-5; break;  end
 
