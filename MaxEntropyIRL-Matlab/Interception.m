@@ -69,6 +69,7 @@ numStates = numel(map);
 while true
     Zs = zeros(numStates,1);
     terminal = Coor2State(path(end,1), path(end,2));
+    terminal
     Za = zeros(numStates,4);
 
     %1. Z_{s_terminal} = 1
