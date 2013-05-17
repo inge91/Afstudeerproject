@@ -3,10 +3,10 @@ function Interception()
 
 global Feat;
 
-isLearning = 1;
+isLearning = 0;
 
 N = 10;
-W = [0.1228 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1];
+W = [0.6456 0.3611 0.19956];
 
 [map, obst] = LoadMap('map4.txt');
 % for me feature count is much higher size(W) is approximately 16
@@ -20,7 +20,7 @@ data_map = data_map(2:end, :);
 %THIS WORKS
 for i=1:size(Feat,1)
     for j=1:size(Feat,2)
-        Feat(i,j,:) = Features(data_map, i,j,map,obst, 5);
+        Feat(i,j,:) = Features(data_map, i,j,map,obst, 9);
     end
 end
 
@@ -51,12 +51,13 @@ for t=1:length(path)
     r = path(t,1);
     %y value
     c = path(t,2);
-    f = f + Features(path_data,1,t,map,obst,3);
+    f = f + Features(path_data,1,t,map,obst,7);
 end
+f
+fflush(stdout)
 
 if ~isLearning
     [policy, values] = ValueIterationLP(W',@GetPhi,@GetProb);
-    size(values)
     DrawValues(values,map,'k');
     DrawPath(path);
     return;
@@ -69,7 +70,6 @@ numStates = numel(map);
 while true
     Zs = zeros(numStates,1);
     terminal = Coor2State(path(end,1), path(end,2));
-    terminal
     Za = zeros(numStates,4);
 
     %1. Z_{s_terminal} = 1
@@ -168,6 +168,7 @@ while true
         fe = fe + D(i) * squeeze(Feat(r,c,:));
     end
 
+    %why the devide by 50
     dL = (f-fe)/50;
     W = W+dL';
     
@@ -194,7 +195,7 @@ end
 %State is the coordinate location of the cell
 function f = Features(data_map, i,j, map, obst, d)
     f = [];
-    for l =d:d+8
+    for l =d:d+2
         c = data_map(:,l);
         m = max(c);
         val = data_map(((i-1) * 50) + j, l);
@@ -236,8 +237,8 @@ function P = GetProb(s)
 % finds proceeding states by going to each coordinate direction
 % calculates the probabilities for all actions and
 % returns a A by S probability matrix
-    mapLength = 14;
-    P = zeros(4,mapLength*mapLength);
+    mapLength = 50;
+    P = zeros(4,88*50);
     i = ceil(s/mapLength);
     j = mod(s-1,mapLength) + 1;
 
