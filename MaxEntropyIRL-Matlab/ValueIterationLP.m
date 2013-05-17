@@ -25,6 +25,9 @@ b = [];
 for s=1:N
     prob = GetProb(s);
     reward = W'*GetPhi(s);
+    d = fopen("diary.txt", "a");
+    fprintf(d, "N: %d\n", s);
+    fclose(d);
     for a=1:A
         %v(s) - \sum_{s'} gamma*P(s,s',a)*v(s) >= r(s)
         C = -gamma*prob(a,:);

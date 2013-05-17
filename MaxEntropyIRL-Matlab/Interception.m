@@ -6,7 +6,7 @@ global Feat;
 isLearning = 0;
 
 N = 10;
-W = [0.6456 0.3611 0.19956];
+W = [0.31];
 
 [map, obst] = LoadMap('map4.txt');
 % for me feature count is much higher size(W) is approximately 16
@@ -14,13 +14,13 @@ Feat = zeros([size(map),length(W)]);
 size(map);
 
 %    for j=1:size(Feat,2)
-data_map = csvread("MapInfo.csv");
+data_map = csvread('MapInfo.csv');
 data_map = data_map(2:end, :);
 
 %THIS WORKS
 for i=1:size(Feat,1)
     for j=1:size(Feat,2)
-        Feat(i,j,:) = Features(data_map, i,j,map,obst, 9);
+        Feat(i,j,:) = Features(data_map, i,j,map,obst, 11);
     end
 end
 
@@ -40,7 +40,7 @@ enGate = 4;
 %path
 %end
 
-path_data = csvread("path.csv");
+path_data = csvread('path.csv');
 path = path_data(:, 1:2);
 
 % Calculate expected feature counts : Is this per path??
@@ -51,7 +51,7 @@ for t=1:length(path)
     r = path(t,1);
     %y value
     c = path(t,2);
-    f = f + Features(path_data,1,t,map,obst,7);
+    f = f + Features(path_data,1,t,map,obst,9);
 end
 f
 fflush(stdout)
@@ -83,7 +83,8 @@ while true
             [r,c] = State2Coor(i);
             if map(r,c)==1; continue; end
             reward = W * squeeze(Feat(r,c,:));
-            reward = reward / 9;
+            reward
+            fflush(stdout)
 
             if c>1
                 k = Coor2State(r,c-1);
@@ -195,7 +196,7 @@ end
 %State is the coordinate location of the cell
 function f = Features(data_map, i,j, map, obst, d)
     f = [];
-    for l =d:d+2
+    for l =d:d
         c = data_map(:,l);
         m = max(c);
         val = data_map(((i-1) * 50) + j, l);
