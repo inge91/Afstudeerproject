@@ -14,8 +14,9 @@ Feat = zeros([size(map),length(W)]);
 size(map);
 
 %    for j=1:size(Feat,2)
-data_map = csvread('MapInfo.csv');
-data_map = data_map(2:end, :);
+data_map = csvread('MapInfoR.csv');
+%data_map = data_map(2:end, :);
+size(data_map)
 
 %THIS WORKS
 for i=1:size(Feat,1)
@@ -40,7 +41,7 @@ enGate = 4;
 %path
 %end
 
-path_data = csvread('path.csv');
+path_data = csvread('pathr.csv');
 path = path_data(:, 1:2);
 
 % Calculate expected feature counts : Is this per path??
@@ -53,8 +54,6 @@ for t=1:length(path)
     c = path(t,2);
     f = f + Features(path_data,1,t,map,obst,9);
 end
-f
-fflush(stdout)
 
 if ~isLearning
     [policy, values] = ValueIterationLP(W',@GetPhi,@GetProb);
