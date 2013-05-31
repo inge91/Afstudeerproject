@@ -1,0 +1,88 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Academic English Assignment 1 \\ Literature Review}
+\author{Inge Becht \\ 6093906}
+\date{June 2011}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+\maketitle
+\clearpage
+
+Quite some different approaches have been researched already on the topic of
+opponent position prediction, both in video games and other domains. In this section a few of them will be
+outlined to show the current state of research around the topic and how this
+research paper relates to these earlier works.
+\\
+In the works of \citep{Hladky_anevaluation}, two different models for opponent
+position prediction, Hidden Semi Markov Models and Particle Filters, are
+compared on how accurate as well as human like their predictions are. The
+comparison with human like prediction was carried out by comparing the performance to human
+prediction in a game setting of Capture the Flag. The research
+concludes on Hidden Semi Markov Models being the most accurate and
+making the most human like errors. It is clear that this research focuses mostly on
+the measurement of human-like prediction, but does not integrate such a
+prediction system in a game participating AI system.
+\\
+\citep{weber2011aiide} uses a Particle Filter as well, but unlike
+researching the likeness to human prediction, tries to find out if adding such a filter
+for position prediction in an AI system can enhance its performance. The EISBot
+for the game Star Craft was equipped with a Particle Filter and reasoning
+capabilities about different game states that actively use the prediction made by the filter. Results
+showed the new AI had a 10 percent increase in win percentage, but that
+making more game states available for the bot to reason about does not always improve the
+performance. Although the method of research has some resemblance to this
+paper, both evaluate the increase in performance of an existing bot, it
+takes place in a completely different game domain, Real Time Strategy instead of
+First Person Team games, and uses a different approach
+towards constructing a prediction model.
+\\
+Instead of trying to predict the opponent's position, the authors of
+\citep{Laird:2001:KYG:375735.376343} focuses on creating a reasoner that
+anticipates behavior of an opponent in Quake. This was done by enhancing the
+Soar Quakebot with anticipation strategies, which are used only in case the bot
+has a high chance of successfully predicting what the opponent is about to do.
+If such an anticipating strategy is triggered, the Soar bot predicts the
+behaviour of the opponent by reasoning what he himself would do if in its
+opponent position. Although it is stated that these additions of anticipating strategies
+are beneficial for the performance of the AI, no results are mentioned that confirm this. The implementation of these anticipation
+strategies might not be solely for
+position prediction, but it does make some interesting points regarding the use
+of ones own behaviours to project what an opponent is going to do, something
+which could arguably adds a human-like dimension to the bot.
+\\
+Not only video games deal with unobservable states, it is also a well known
+problem in robotics. In \citep{Bennewitz05learningmotion} is dealt with the same problem of position
+prediction with a goal of
+keeping service robots from getting in the way of humans in real life
+situations. To do so, these robots need to predict where humans are heading and what their
+intentions are. All aspects of these kinds of predictions are treated in this
+paper, for instance, using sensor data to sense humans and how to keep track of
+a single person. Both these aspects are less important for the game domain,
+as this information is generally known, but there are sections that explain how
+Hidden Markov Models can successfully be used for learning motions patterns.
+\\
+In \citep{6374144} both the combination of making predictive models for opponent
+positions is discussed as well as a way of actively using these models to intercept
+opponents in a game. The predictive models were made using a particle filter
+that integrates both Maximum Entropy Inverse Reinforcement Learning motion
+models, as discussed in
+\citep{Ziebart_2008_6055},
+ and Brownian Motion models, from
+which the latter serves as a baseline performance test (by randomly spreading
+particles around the map). Maximum Entropy Inverse Reinforcement Learning gives
+the most accurate results to where the opponent may be. The work that will be
+presented in this research paper is closely
+related to the predictive models created by \citep{6374144}, and builds further
+upon Maximum Entropy Inverse Reinforcement Learning Motion Models by adding general behaviour
+classification and testing it in a different game environment, namely Capture
+the Flag.
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
+

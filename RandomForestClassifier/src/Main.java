@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Random;
 
 import sun.nio.cs.ext.ISCII91;
 
@@ -32,7 +33,7 @@ public static void loadTrainingInstances(boolean verbose) {
 
         BufferedReader reader = new BufferedReader(
 
-        new FileReader("/home/inge/Projects/Afstudeerproject/TrainingData.arff"));
+        new FileReader("/home/inge/Projects/Afstudeerproject/TrainingData_allbehaviours.arff"));
         
 
         Instances data = new Instances(reader);
@@ -70,8 +71,9 @@ public static void loadTrainingInstances(boolean verbose) {
             //System.out.println(RF.toString());
 
             Evaluation eTest = new Evaluation(data);
+            eTest.crossValidateModel(RF, data, 10, new Random());
 
-            eTest.evaluateModel(RF, RF_trainingInstances);
+            //eTest.evaluateModel(RF, RF_trainingInstances);
 
 
 
@@ -262,12 +264,12 @@ public static double classifyInstance(Instance testInstance, boolean verbose) {
 public static void main(String[] args)
 {
 	loadTrainingInstances(true);
-	loadTestInstances(true);
-	Instance test = selectTestInstance();
-	for(int i = 0; i < RF_testInstances.numInstances(); i++)
-	{
-		classifyInstance(RF_testInstances.instance(i), true);
-	}
+	//loadTestInstances(true);
+	//Instance test = selectTestInstance();
+	//for(int i = 0; i < RF_testInstances.numInstances(); i++)
+	//{
+	//	classifyInstance(RF_testInstances.instance(i), true);
+	//}
 		
 }
 	
